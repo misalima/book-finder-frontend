@@ -1,15 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
-import { Header } from './components/Header/Header';
+import { Navbar } from './components/Navbar';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { Box } from '@mui/material';
 
 
 function App() {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#22a39f',
+        dark: '#222222',
+      },
+      secondary: {
+        main: '#f3efe0',
+        dark: '#434242',
+      },
+    },
+  });
+
   return (
-    <div className="App">
-      <CssBaseline/>
-      <Header />
-    </div>
+    <ThemeProvider theme={theme}>
+      <Box>
+        <CssBaseline />
+        <Navbar />
+      </Box>
+    </ThemeProvider>
   );
 }
 
