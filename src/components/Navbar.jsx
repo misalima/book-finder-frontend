@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import SearchIcon from "@mui/icons-material/Search";
 import logo from "../resources/logo-svg.svg";
 
 const StyledToolbar = styled(Toolbar)({
@@ -22,6 +23,9 @@ const Search = styled("div")(({ theme }) => ({
   padding: "0 10px",
   borderRadius: theme.shape.borderRadius,
   width: "40%",
+  display: "flex",
+  alignItems: "center",
+  gap: "5px",
 }));
 
 const UserBox = styled(Box)(({ theme }) => ({
@@ -35,10 +39,11 @@ export const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   return (
-    <AppBar position="sticky" sx={{ p: "0 60px" }}>
+    <AppBar position="sticky" sx={{ p: { md: "0 60px" } }}>
       <StyledToolbar>
         <img src={logo} alt="logo" width={"100px"} />
         <Search>
+          <SearchIcon color="disabled" />
           <InputBase placeholder="Search..." />
         </Search>
         <UserBox>
@@ -57,8 +62,8 @@ export const Navbar = () => {
         aria-labelledby="user-menu-button"
         open={open}
         onClose={(e) => {
-          setOpen(false)
-          setAnchorEl(null)
+          setOpen(false);
+          setAnchorEl(null);
         }}
         anchorEl={anchorEl}
         anchorOrigin={{

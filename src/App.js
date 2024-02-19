@@ -1,8 +1,8 @@
-import './App.css';
 import { Navbar } from './components/Navbar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box } from '@mui/material';
+import { Home } from './components/Home';
 
 
 function App() {
@@ -24,6 +24,7 @@ function App() {
       <Box>
         <CssBaseline />
         <Navbar />
+        <Home />
       </Box>
     </ThemeProvider>
   );
