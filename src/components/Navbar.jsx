@@ -16,6 +16,7 @@ import logo from "../resources/logo-svg.svg";
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
   justifyContent: "space-between",
+  padding: "16px 8px",
 });
 
 const Search = styled("div")(({ theme }) => ({
@@ -37,7 +38,7 @@ const UserBox = styled(Box)(({ theme }) => ({
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-
+  
   return (
     <AppBar position="sticky" sx={{ p: { md: "0 60px" } }}>
       <StyledToolbar>
