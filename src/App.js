@@ -3,6 +3,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box } from '@mui/material';
 import { Home } from './components/Home';
+import { Footer } from './components/Footer';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <CssBaseline />
         <Navbar />
         <Home />
+        <Footer />
       </Box>
     </ThemeProvider>
   );
