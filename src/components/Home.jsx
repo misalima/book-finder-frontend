@@ -32,7 +32,7 @@ export const Home = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            height: "85vh",
+            height: "82vh",
           }}
           p={"100px 40px"}
         >

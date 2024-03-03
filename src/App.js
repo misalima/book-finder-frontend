@@ -2,8 +2,8 @@ import { Navbar } from './components/Navbar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box } from '@mui/material';
-import { Home } from './components/Home';
 import { Footer } from './components/Footer';
+import { Outlet } from 'react-router-dom';
 
 
 function App() {
@@ -22,10 +22,10 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box>
+      <Box classname="App">
         <CssBaseline />
         <Navbar />
-        <Home />
+        <Outlet />
         <Footer />
       </Box>
     </ThemeProvider>

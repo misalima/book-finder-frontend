@@ -3,6 +3,7 @@ import {
   AppBar,
   Avatar,
   Box,
+  Button,
   InputBase,
   Menu,
   MenuItem,
@@ -12,6 +13,7 @@ import {
 import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import logo from "../resources/logo-svg.svg";
+import { Link } from "react-router-dom";
 
 const StyledToolbar = styled(Toolbar)({
   display: "flex",
@@ -38,7 +40,7 @@ const UserBox = styled(Box)(({ theme }) => ({
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  
+
   return (
     <AppBar position="sticky" sx={{ p: { md: "0 60px" } }}>
       <StyledToolbar>
@@ -48,6 +50,11 @@ export const Navbar = () => {
           <InputBase placeholder="Search..." />
         </Search>
         <UserBox>
+          <Link to={`/about`}>
+            <Button size="small" variant="outlined" color="secondary">
+              About
+            </Button>
+          </Link>
           <Avatar
             sx={{ width: 50, height: 50 }}
             onClick={(e) => {
@@ -55,6 +62,7 @@ export const Navbar = () => {
               setOpen(true);
             }}
           />
+
           <Typography variant="span">User</Typography>
         </UserBox>
       </StyledToolbar>
