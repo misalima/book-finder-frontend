@@ -13,7 +13,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { Home } from './components/Home';
-import { About } from './components/About';
+import About from './components/About';
 import ErrorPage from './components/ErrorPage';
 
 
@@ -29,10 +29,6 @@ const router = createBrowserRouter([
         element: <About />
       }
     ]
-  },
-  {
-    path: "about",
-    element: <div>About</div>,
   },
 ]);
 
