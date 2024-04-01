@@ -1,9 +1,12 @@
 import { Navbar } from './components/Navbar';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { Footer } from './components/Footer';
 import { Outlet } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
+import MainContent from './components/MainContent';
+
 
 
 function App() {
@@ -25,8 +28,8 @@ function App() {
       <Box classname="App">
         <CssBaseline />
         <Navbar />
-        <Outlet />
-        <Footer />
+        <Sidebar />
+        <MainContent />
       </Box>
     </ThemeProvider>
   );
