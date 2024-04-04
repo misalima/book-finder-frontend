@@ -1,10 +1,16 @@
-import * as React from "react";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+import React, { useState } from "react";
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  IconButton,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import ListAltIcon from "@mui/icons-material/ListAlt";
@@ -14,55 +20,84 @@ const drawerWidth = "240px";
 const navbarHeight = "82px"; // Replace with the actual height of your navbar
 
 const Sidebar = () => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const drawerContent = (
+    <List>
+      {["Home", "Advanced Search", "My Lists", "Browse Books"].map((text) => {
+        let icon;
+        switch (text) {
+          case "Home":
+            icon = <HomeIcon />;
+            break;
+          case "Advanced Search":
+            icon = <SearchIcon />;
+            break;
+          case "My Lists":
+            icon = <ListAltIcon />;
+            break;
+          case "Browse Books":
+            icon = <BookIcon />;
+            break;
+          default:
+            icon = <HomeIcon />;
+        }
+        return (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>{icon}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        );
+      })}
+    </List>
+  );
+
   return (
-    <Drawer
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
+    <div>
+      {isMobile && (
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          sx={{
+            ml: "8px",
+            position: "fixed",
+            zIndex: theme.zIndex.drawer + 1,
+            ...(mobileOpen && { display: "none" }),
+          }}
+        >
+          <MenuIcon />
+        </IconButton>
+      )}
+      <Drawer
+        sx={{
           width: drawerWidth,
-          boxSizing: "border-box",
-          marginTop: navbarHeight,
-          zIndex: 1,
-        },
-      }}
-      variant="permanent"
-      anchor="left"
-    >
-      <List>
-        {["Home", "Advanced Search", "My Lists", "Browse Books"].map(
-          (text, index) => {
-            let icon;
-
-            switch (text) {
-              case "Home":
-                icon = <HomeIcon />;
-                break;
-              case "Advanced Search":
-                icon = <SearchIcon />;
-                break;
-              case "My Lists":
-                icon = <ListAltIcon />;
-                break;
-              case "Browse Books":
-                icon = <BookIcon />;
-                break;
-              default:
-                icon = <HomeIcon />; // Default icon
-            }
-
-            return (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>{icon}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            );
-          }
-        )}
-      </List>
-    </Drawer>
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: drawerWidth,
+            boxSizing: "border-box",
+            marginTop: navbarHeight,
+            zIndex: 1,
+          },
+        }}
+        variant={isMobile ? "temporary" : "permanent"}
+        anchor="left"
+        open={isMobile ? mobileOpen : true}
+        onClose={handleDrawerToggle}
+        ModalProps={{ keepMounted: true }} // Better open performance on mobile.
+      >
+        {drawerContent}
+      </Drawer>
+    </div>
   );
 };
 
