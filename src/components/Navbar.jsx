@@ -9,6 +9,7 @@ import {
   MenuItem,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
@@ -41,12 +42,16 @@ const UserBox = styled(Box)(({ theme }) => ({
 export const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const isMobile = useMediaQuery("(max-width:600px)");
+  const searchButtonStyle = {
+    display: isMobile ? "none" : "flex",
+  };
 
   return (
     <AppBar position="sticky" sx={{ p: { md: "0 60px" } }}>
       <StyledToolbar>
         <Link to={`/`}>
-        <img src={logo} alt="logo" width={"100px"} />
+          <img src={logo} alt="logo" width={"100px"} />
         </Link>
         <div
           style={{
@@ -61,7 +66,12 @@ export const Navbar = () => {
             <SearchIcon color="disabled" />
             <InputBase sx={{ width: "100%" }} placeholder="Search..." />
           </Search>
-          <Button variant="contained" color="secondary" size="small">
+          <Button
+            style={searchButtonStyle}
+            variant="contained"
+            color="secondary"
+            size="small"
+          >
             <DoneIcon color="primary" />
           </Button>
         </div>

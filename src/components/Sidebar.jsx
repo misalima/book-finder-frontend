@@ -15,6 +15,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import BookIcon from "@mui/icons-material/Book";
+import { Link } from "react-router-dom";
 
 const drawerWidth = "240px";
 const navbarHeight = "82px"; // Replace with the actual height of your navbar
@@ -31,30 +32,36 @@ const Sidebar = () => {
   const drawerContent = (
     <List>
       {["Home", "Advanced Search", "My Lists", "Browse Books"].map((text) => {
-        let icon;
+        let icon, link;
         switch (text) {
           case "Home":
             icon = <HomeIcon />;
+            link = `/`;
             break;
           case "Advanced Search":
             icon = <SearchIcon />;
+            link = `/advanced-search`;
             break;
           case "My Lists":
             icon = <ListAltIcon />;
+            link = `/my-lists`;
             break;
           case "Browse Books":
             icon = <BookIcon />;
+            link = `/browse`;
             break;
           default:
             icon = <HomeIcon />;
         }
         return (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{icon}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+          <Link to={link} style={{ textDecoration: "none", color: "black" }}>
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         );
       })}
     </List>
