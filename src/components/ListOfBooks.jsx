@@ -21,7 +21,7 @@ const BookList = () => {
   return (
     <>
       <Typography variant="h4" color={"primary"} sx={{ p: "20px" }}>
-        List
+        List Name
       </Typography>
       <hr />
       <Grid container spacing={2} sx={{ padding: "30px" }}>

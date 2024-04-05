@@ -18,6 +18,8 @@ import ListOfBooks from './components/ListOfBooks'
 import ErrorPage from './components/ErrorPage';
 import Book from './components/BookCard';
 import BookPage from './components/BookPage';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
 
 
 const router = createBrowserRouter([
@@ -38,6 +40,14 @@ const router = createBrowserRouter([
       {
         path: "/book",
         element: <BookPage />
+      },
+      {
+        path: "/login",
+        element: <Login/>
+      },
+      {
+        path: "/signup",
+        element: <SignUp />
       }
     ]
   },

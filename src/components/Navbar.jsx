@@ -111,9 +111,18 @@ export const Navbar = () => {
           horizontal: "right",
         }}
       >
-        <MenuItem>Settings</MenuItem>
-        <MenuItem>My Lists</MenuItem>
-        <MenuItem>Logout</MenuItem>
+        <MenuItem component={Link} to="/settings">
+          Settings
+        </MenuItem>
+        <MenuItem component={Link} to="/my-lists">
+          My Lists
+        </MenuItem>
+        <MenuItem component={Link} to="/logout">
+          Logout
+        </MenuItem>
+        <MenuItem component={Link} to="/login">
+          Login
+        </MenuItem>
       </Menu>
     </AppBar>
   );
