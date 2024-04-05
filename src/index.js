@@ -14,7 +14,10 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { Home } from './components/Home';
 import About from './components/About';
+import ListOfBooks from './components/ListOfBooks'
 import ErrorPage from './components/ErrorPage';
+import Book from './components/BookCard';
+import BookPage from './components/BookPage';
 
 
 const router = createBrowserRouter([
@@ -27,6 +30,14 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />
+      },
+      {
+        path: "/my-lists",
+        element: <ListOfBooks />
+      },
+      {
+        path: "/book",
+        element: <BookPage />
       }
     ]
   },
