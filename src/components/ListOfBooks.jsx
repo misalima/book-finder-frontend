@@ -27,12 +27,7 @@ const BookList = () => {
       <Grid container spacing={2} sx={{ padding: "30px" }}>
         {myBooks.map((myBooks, index) => (
           <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
-            <BookCard
-              title={myBooks.title}
-              author={myBooks.author}
-              coverImageUrl={myBooks.coverImageUrl}
-              summary={myBooks.summary}
-            />
+            <BookCard book={myBooks}/>
           </Grid>
         ))}
       </Grid>

@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom/client';
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
-  Link,
 } from "react-router-dom";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -14,12 +12,12 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { Home } from './components/Home';
 import About from './components/About';
-import ListOfBooks from './components/ListOfBooks'
+import AllLists from './components/AllLists'
 import ErrorPage from './components/ErrorPage';
-import Book from './components/BookCard';
 import BookPage from './components/BookPage';
 import Login from './components/Login';
 import SignUp from './components/SignUp';
+import { ResultsPage } from './components/ResultsPage';
 
 
 const router = createBrowserRouter([
@@ -35,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/my-lists",
-        element: <ListOfBooks />
+        element: <AllLists />
       },
       {
         path: "/book",
@@ -48,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignUp />
+      },
+      {
+        path: "/results",
+        element: <ResultsPage />
       }
     ]
   },

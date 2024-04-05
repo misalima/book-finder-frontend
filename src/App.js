@@ -6,33 +6,36 @@ import { Footer } from './components/Footer';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import MainContent from './components/MainContent';
+import { ptBR } from '@mui/material/locale';
 
 
 
-function App() {
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#22a39f',
-        dark: '#222222',
-      },
-      secondary: {
-        main: '#f3efe0',
-        dark: '#434242',
+  function App() {
+    const theme = createTheme({
+      palette: {
+        primary: {
+          main: '#22a39f',
+          dark: '#222222',
+        },
+        secondary: {
+          main: '#f3efe0',
+          dark: '#434242',
+        },
       },
     },
-  });
+    ptBR,
+    );
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Box classname="App">
-        <CssBaseline />
-        <Navbar />
-        <Sidebar />
-        <MainContent />
-      </Box>
-    </ThemeProvider>
-  );
-}
+    return (
+      <ThemeProvider theme={theme}>
+        <Box classname="App">
+          <CssBaseline />
+          <Navbar />
+          <Sidebar />
+          <MainContent />
+        </Box>
+      </ThemeProvider>
+    );
+  }
 
 export default App;
