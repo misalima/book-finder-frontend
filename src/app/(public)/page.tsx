@@ -1,7 +1,6 @@
 import Image from "next/image";
-import NavBar from "../components/NavBar";
-import JumboImg from "../components/JumboImg";
-import BookSection from "../components/BookSection";
+import JumboImg from "@/components/JumboImg";
+import BookSection from "@/components/BookSection";
 
 export default function App() {
   const sectionTitle = "Most liked books";
