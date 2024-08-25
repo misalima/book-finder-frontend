@@ -1,5 +1,5 @@
-import { IUser } from "@/types/user";
 import React from "react";
+import { IUser } from "@/types/user";
 import { FaUser } from "react-icons/fa";
 
 interface UserInfoProps {
@@ -22,7 +22,7 @@ export default function UserInfo(user: IUser) {
         </div>
         <div className="flex md:flex-row flex-col lg:flex-end md:gap-6 xl:gap-20">
           <div className="flex gap-1 items-center mb-1 md:block md:mb-none">
-            <div className="ml-2 bg-primary-green text-md w-12 md:w-24 lg:w-32 md:text-2xl text-center py-1 rounded-lg font-medium">
+            <div className="ml-2 bg-primary-green text-md w-12 md:ml-0 md:w-24 lg:w-32 md:text-2xl text-center py-1 rounded-lg font-medium">
               {numberOfFollowers}
             </div>
             <div className="w-full md:text-center text-md md:text-xl font-medium md:mt-2">
@@ -30,7 +30,7 @@ export default function UserInfo(user: IUser) {
             </div>
           </div>
           <div className="flex gap-1 items-center mb-1 md:block md:mb-none">
-            <div className="ml-2 bg-primary-green text-md w-12 md:w-24 lg:w-32 md:text-2xl text-center py-1 rounded-lg font-medium">
+            <div className="ml-2 bg-primary-green text-md w-12 md:ml-0 md:w-24 lg:w-32 md:text-2xl text-center py-1 rounded-lg font-medium">
               {numberOfFollowing}
             </div>
             <div className="w-full md:text-center text-md md:text-xl font-medium md:mt-2">
@@ -38,7 +38,7 @@ export default function UserInfo(user: IUser) {
             </div>
           </div>
           <div className="flex gap-1 items-center mb-1 md:block md:mb-none">
-            <div className="ml-2 bg-primary-green text-md w-12 md:w-24 lg:w-32 md:text-2xl text-center py-1 rounded-lg font-medium">
+            <div className="ml-2 bg-primary-green text-md w-12 md:ml-0 md:w-24 lg:w-32 md:text-2xl text-center py-1 rounded-lg font-medium">
               {numberOfLists}
             </div>
             <div className="w-full md:text-center text-md md:text-xl font-medium md:mt-2">
