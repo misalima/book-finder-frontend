@@ -58,7 +58,7 @@ export default function FormRegistration() {
             <input
               id="username"
               type="text"
-              className="rounded-lg w-full p-2 border-2 border-dark-grey"
+              className="rounded-lg w-full p-2 border border-gray-400"
               {...register('username')}
             />
             {errors.username && <div className="ml-1 error-message text-errors font-semibold">{errors.username.message}</div>}
@@ -69,7 +69,7 @@ export default function FormRegistration() {
             <input
               id="email"
               type="email"
-              className="rounded-lg w-full p-2 border-2 border-dark-grey"
+              className="rounded-lg w-full p-2 border border-gray-400"
               {...register('email')}
             />
             {errors.email && <div className="ml-1 error-message text-errors font-semibold">{errors.email.message}</div>}
@@ -80,10 +80,10 @@ export default function FormRegistration() {
             <input
               id="password"
               type={showPassword ? "text" : "password"}
-              className="rounded-lg w-full p-2 border-2 border-dark-grey"
+              className="rounded-lg w-full p-2 border border-gray-400"
               {...register('password')}
             />
-            <div className="absolute inset-y-0 right-0 pr-3 pt-5 flex items-center cursor-pointer" onClick={togglePasswordVisibility}>
+            <div className={`absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer ${errors.password ? '' : 'pt-5'}`} onClick={togglePasswordVisibility}>
               {showPassword ? <AiFillEyeInvisible size={30} /> : <AiFillEye size={30} />}
             </div>
             {errors.password && <div className="ml-1 error-message text-errors font-semibold">{errors.password.message}</div>}
@@ -94,10 +94,10 @@ export default function FormRegistration() {
             <input
               id="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
-              className="rounded-lg w-full p-2 border-2 border-dark-grey"
+              className="rounded-lg w-full p-2 border border-gray-400"
               {...register('confirmPassword')}
             />
-            <div className="absolute inset-y-0 right-0 pr-3 pt-5 flex items-center cursor-pointer" onClick={toggleConfirmPasswordVisibility}>
+            <div className={`absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer ${errors.confirmPassword ? '' : 'pt-5'}`} onClick={toggleConfirmPasswordVisibility}>
               {showConfirmPassword ? <AiFillEyeInvisible size={30} /> : <AiFillEye size={30} />}
             </div>
             {errors.confirmPassword && <div className="ml-1 error-message text-errors font-semibold">{errors.confirmPassword.message}</div>}
