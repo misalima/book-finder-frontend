@@ -16,6 +16,12 @@ const config: Config = {
         "secondary-green": "var(--secondary-green)",
         "dark-grey": "var(--dark-grey)",
       },
+      screens: {
+        sm: "480px",
+        md: "860px",
+        lg: "1080px",
+        xl: "1440px",
+      },
     },
   },
   plugins: [],
