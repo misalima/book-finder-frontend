@@ -17,6 +17,12 @@ const config: Config = {
         "dark-grey": "var(--dark-grey)",
         "errors": "var(--errors)",
       },
+      screens: {
+        sm: "480px",
+        md: "860px",
+        lg: "1080px",
+        xl: "1440px",
+      },
     },
   },
   plugins: [],
