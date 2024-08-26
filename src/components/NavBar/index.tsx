@@ -6,7 +6,7 @@ import React from "react";
 export default function NavBar() {
   const router = useRouter();
   return (
-    <header className="z-50 px-40 h-24 w-full bg-primary-green flex items-center justify-between">
+    <header className="z-50 px-8 md:px-40 h-24 w-full bg-primary-green flex items-center justify-between">
       <Image
         className="max-h-[60px] cursor-pointer"
         alt="logo"
