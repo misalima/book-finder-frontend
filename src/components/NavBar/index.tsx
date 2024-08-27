@@ -14,14 +14,6 @@ export default function NavBar() {
         height={60}
         src={"/images/logo.png"}
       ></Image>
-
-      <Image
-        className="max-h-[60px] cursor-pointer"
-        alt="logo"
-        width={160}
-        height={60}
-        src={"/images/logo.png"}
-      ></Image>
       <div className="flex gap-3">
         <button
           className="bg-white px-8 py-2 rounded-lg text-lg font-medium text-primary-green hover:bg-[#dddddd]"
