@@ -107,7 +107,8 @@ export default function UserListsSection() {
   return (
     <div>
       <h2 className="px-2 mt-4 text-3xl text-white">Lists</h2>
-      <div className="flex flex-col gap-3 py-3">
+      <div className="flex flex-col gap-6 py-3">
+        <ListBar id='123' name='List1' books={books} />
         <ListBar id='123' name='List1' books={books} />
       </div>
     </div>
