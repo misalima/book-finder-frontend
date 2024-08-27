@@ -50,7 +50,7 @@ export default function FormRegistration() {
           <Image alt="logo" width={480} height={180} src={'/images/logo.png'} />
         </div>
       </div>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center bg-white">
         <form className="w-80 space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <span className="text-primary-green font-bold text-4xl">Crie sua conta</span>
           <div>

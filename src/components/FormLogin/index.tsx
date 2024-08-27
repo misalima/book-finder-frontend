@@ -34,7 +34,7 @@ export default function FormRegistration() {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-2">
+    <div className="min-h-screen grid grid-cols-2 bg-white">
       <div className="flex justify-center items-center">
         <form className="w-80 space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <span className="text-primary-green font-bold text-4xl">Fazer login</span>
