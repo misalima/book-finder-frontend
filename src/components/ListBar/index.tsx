@@ -26,8 +26,8 @@ export default function ListBar({ id, name, books }: ListBarProps) {
       </div>
 
       <div
-        className={`overflow-hidden transition-max-height duration-300 ease-in-out ${
-          isOpen ? "max-h-48 -mt-4" : "-mt-8 max-h-0 -z-10"
+        className={`overflow-hidden -mt-4 transition-max-height duration-300 ease-in-out ${
+          isOpen ? "max-h-48" : "max-h-0 py-0"
         } rounded-lg p-4 relative bg-white`}
       >
         <div className="flex gap-4 overflow-hidden ">
