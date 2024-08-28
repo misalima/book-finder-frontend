@@ -1,4 +1,4 @@
-import Image from "next/image";
+"use client"
 import JumboImg from "@/components/JumboImg";
 import BookSection from "@/components/BookSection";
 
