@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import UserInfo from "../UserInfo";
 import { IUser } from "@/types/user";
@@ -21,7 +22,7 @@ export default function UserPage({ params }: { params: { id: string } }) {
           profile_visibility={oneUser.profile_visibility}
           username={oneUser.username}
         />
-        <UserListsSection/>
+        <UserListsSection />
       </div>
     </>
   );

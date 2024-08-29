@@ -1,3 +1,4 @@
+"use client"
 import FormRegistration from "@/components/FormRegistration";
 
 export default function App() {
