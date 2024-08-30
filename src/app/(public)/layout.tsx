@@ -1,18 +1,14 @@
-import type { Metadata } from "next";
+"use client"
 import { Roboto } from "next/font/google";
 import "../globals.css";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import { SessionProvider } from "next-auth/react";
 
 const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
   subsets: ["latin"],
 });
-
-export const metadata: Metadata = {
-  title: "Book Finder",
-  description: "Find books, save them in your lists, and track your reading.",
-};
 
 export default function RootLayout({
   children,
@@ -22,9 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={roboto.className}>
-        <NavBar />
-        {children}
-        <Footer />
+        <SessionProvider>
+          <NavBar />
+          {children}
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   );

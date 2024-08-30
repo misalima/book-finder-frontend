@@ -6,6 +6,8 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export interface FormLogin {
   email: string;
@@ -18,20 +20,31 @@ const schema = yup.object({
 }).required();
 
 export default function FormRegistration() {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormLogin>({
+  const router = useRouter();
+  const { register, handleSubmit, setError, formState: { errors } } = useForm<FormLogin>({
     resolver: yupResolver(schema)
   });
+  
 
   const [showPassword, setShowPassword] = useState(false);
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
 
 
-  const onSubmit = (data: FormLogin) => {
-    console.log(data);
+  const onSubmit = async (data: FormLogin) => {
+   const result = await signIn("credentials", {
+      redirect: false, 
+      email: data.email,
+      password: data.password,
+    });
+
+    if (result?.error) {
+      setError("password", { type: "manual", message: "Usuário ou senha incorreto(a)" });
+    } else if (result?.ok) {
+      router.push('/');
+    }
   };
 
   return (
