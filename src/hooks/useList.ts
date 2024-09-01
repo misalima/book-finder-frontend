@@ -17,12 +17,11 @@ const Create = () => {
 };
 
 const GetUserLists = (userId: string) => {
-  return useQuery<IList[], Error, IList[], [string, string]>({
-    queryKey: [QUERY_KEY, userId], 
-    queryFn: () => ApiList.getUserLists(userId), 
-    enabled: !!userId, 
+  return useQuery<IList[], Error>({
+    queryKey: [QUERY_KEY],
+    queryFn: () => ApiList.getUserLists(userId),
   });
-}
+};
 
 export const useList = {
   Create,

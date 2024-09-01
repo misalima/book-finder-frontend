@@ -3,14 +3,17 @@ import React, { useState, useEffect, useRef } from "react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { FaChevronDown } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 interface UserMenuProps {
   username: string;
+  id: string;
 }
 
-export default function UserMenu({ username }: UserMenuProps) {
+export default function UserMenu({ username, id }: UserMenuProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -45,7 +48,7 @@ export default function UserMenu({ username }: UserMenuProps) {
         style={{ overflow: "hidden" }}
       >
         <div className="flex flex-col">
-          <Link href={`/user/${username}`}>
+          <Link href={`/user/${id}`}>
             <button onClick={toggleMenu} className="w-full px-4 py-2 text-left text-white hover:bg-gray-100 hover:text-primary-green">
               Meu Perfil
             </button>
@@ -54,6 +57,7 @@ export default function UserMenu({ username }: UserMenuProps) {
             onClick={() => {
               signOut();
               toggleMenu();
+              router.push('/')
             }}
             className="w-full px-4 py-2 text-left text-white hover:bg-gray-100 hover:text-primary-green"
           >

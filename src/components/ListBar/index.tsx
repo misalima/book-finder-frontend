@@ -4,7 +4,7 @@ import { IBook } from "@/types/book";
 import React, { useState } from "react";
 
 interface ListBarProps {
-  id: string;
+  id?: string;
   name: string;
   books: IBook[];
 }
