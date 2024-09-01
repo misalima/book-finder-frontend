@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useSession, signOut } from "next-auth/react";
 import LoadingScreen from "../LoadingScreen";
+import UserMenu from "../UserMenu";
 
 export default function NavBar() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  console.log(session)
   if(status === 'loading') {
     return <LoadingScreen/>
   } else {
@@ -27,15 +29,7 @@ export default function NavBar() {
       <div>
         {session ? (
           <div>
-            <button
-              className="ring-2 ring-white ring-inset bg-primary-green w-28 py-2 rounded-lg text-lg font-medium text-white hover:bg-secondary-green"
-              onClick={() => {
-                signOut();
-                router.push("/");
-              }}
-            >
-              Sair
-            </button>
+            <UserMenu username={session.user?.name || "User"}/>
           </div>
         ) : (
           <div>

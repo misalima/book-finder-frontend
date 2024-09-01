@@ -16,6 +16,7 @@ const config: Config = {
         "secondary-green": "var(--secondary-green)",
         "dark-grey": "var(--dark-grey)",
         "errors": "var(--errors)",
+        "white": "var(--white)",
       },
       screens: {
         sm: "480px",
