@@ -21,10 +21,16 @@ const authOptions: NextAuthOptions = {
             }
           );
 
-          const user = response.data;
+          const { user, access_token } = response.data;
 
-          if (user && user.access_token) {
-            return user;
+          if (user && access_token) {
+            // Return the user object in the format NextAuth expects
+            return {
+              id: user.id,
+              name: user.username, // 'name' is a standard field used by NextAuth
+              email: user.email,
+              access_token: access_token, // Keep the access token for JWT purposes
+            };
           } else {
             return null;
           }
@@ -41,12 +47,20 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        (token as any).accessToken = (user as any).access_token;
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        token.accessToken = user.access_token;
       }
       return token;
     },
     async session({ session, token }) {
-      session.accessToken = (token as any).accessToken;
+      if(session && session.user) {
+        session.user.id = token.id as string;
+        session.user.name = token.name as string;
+        session.user.email = token.email as string;
+        session.accessToken = token.accessToken as string;
+      }
       return session;
     },
   },
