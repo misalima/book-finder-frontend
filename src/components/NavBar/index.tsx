@@ -8,13 +8,9 @@ import LoadingScreen from "../LoadingScreen";
 import UserMenu from "../UserMenu";
 
 export default function NavBar() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
-  console.log(session)
-  if(status === 'loading') {
-    return <LoadingScreen/>
-  } else {
-
+  
   return (
     <header className="z-50 px-8 md:px-40 h-24 w-full bg-primary-green flex items-center justify-between">
       <Link href={"/"}>
@@ -29,7 +25,7 @@ export default function NavBar() {
       <div>
         {session ? (
           <div>
-            <UserMenu username={session.user?.name || "User"}/>
+            <UserMenu username={session.user?.name || "User"} id={session.user?.id}/>
           </div>
         ) : (
           <div>
@@ -50,5 +46,4 @@ export default function NavBar() {
       </div>
     </header>
   );
-  }
 }

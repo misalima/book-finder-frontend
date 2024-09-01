@@ -29,6 +29,8 @@ const authOptions: NextAuthOptions = {
               id: user.id,
               name: user.username, // 'name' is a standard field used by NextAuth
               email: user.email,
+              profileVisibility: user.profile_visibility,
+              createdAt: user.created_at,
               access_token: access_token, // Keep the access token for JWT purposes
             };
           } else {
@@ -50,6 +52,8 @@ const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
+        token.profileVisibility = user.profileVisibility
+        token.createdAt = user.createdAt
         token.accessToken = user.access_token;
       }
       return token;
@@ -59,6 +63,8 @@ const authOptions: NextAuthOptions = {
         session.user.id = token.id as string;
         session.user.name = token.name as string;
         session.user.email = token.email as string;
+        session.user.createdAt = token.createdAt as string;
+        session.user.profileVisibility = token.profileVisibility as 0 | 1;
         session.accessToken = token.accessToken as string;
       }
       return session;
