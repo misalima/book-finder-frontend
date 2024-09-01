@@ -46,13 +46,14 @@ export default function UserMenu({ username }: UserMenuProps) {
       >
         <div className="flex flex-col">
           <Link href={`/user/${username}`}>
-            <button className="w-full px-4 py-2 text-left text-white hover:bg-gray-100 hover:text-primary-green">
+            <button onClick={toggleMenu} className="w-full px-4 py-2 text-left text-white hover:bg-gray-100 hover:text-primary-green">
               Meu Perfil
             </button>
           </Link>
           <button
             onClick={() => {
               signOut();
+              toggleMenu();
             }}
             className="w-full px-4 py-2 text-left text-white hover:bg-gray-100 hover:text-primary-green"
           >
