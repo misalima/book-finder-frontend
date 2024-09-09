@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import * as yup from "yup";
+import { IUser } from "@/types/user";
 
 export interface FormEditProfile {
   username: string;
@@ -27,12 +28,13 @@ const schema = yup.object({
     .required("Confirmação de senha é obrigatória"),
 }).required();
 
-export default function FormRegistration() {
+export default function FormRegistration(user: IUser) {
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    setValue, 
   } = useForm<FormEditProfile>({
     resolver: yupResolver(schema),
   });
@@ -41,6 +43,12 @@ export default function FormRegistration() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+   
+    setValue("username", user.username);
+    setValue("email", user.email);
+  }, [user, setValue]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -66,8 +74,8 @@ export default function FormRegistration() {
   }, [watch]);
 
   return (
-    <div className="flex justify-center items-center py-6 px-24">
-      <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
+    <div className="flex justify-center items-center py-6 px-96 ">
+      <form className=" w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <span className="text-white font-bold text-4xl">Editar Perfil</span>
         <div>
           <label className="font-medium ml-1 text-white ">Usuário</label>
@@ -76,6 +84,7 @@ export default function FormRegistration() {
             type="text"
             className="rounded-lg w-full p-2 focus:outline-none border border-gray-400"
             {...register("username")}
+            
           />
 
           {errors.username && (
@@ -92,6 +101,7 @@ export default function FormRegistration() {
             type="email"
             className="rounded-lg w-full p-2 focus:outline-none border border-gray-400"
             {...register("email")}
+          
           />
           {errors.email && (
             <div className="ml-1 error-message text-errors font-semibold">
@@ -214,7 +224,9 @@ export default function FormRegistration() {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="rounded-lg font-medium bg-primary-green text-white p-3"
+            className={`rounded-lg font-medium p-3  text-white 
+              ${isButtonDisabled ? "hover:bg-gray-500 bg-primary-green cursor-not-allowed" : "bg-primary-green hover:bg-green-600"} 
+             `}
             disabled={isButtonDisabled}
           >
             Salvar Alterações

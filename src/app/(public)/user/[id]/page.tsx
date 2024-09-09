@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import UserInfo from "../UserInfo";
-import { isIUser, IUser } from "@/types/user";
+import { isIUser} from "@/types/user";
 import UserListsSection from "../UserListsSection";
 import { useList } from "@/hooks/useList";
 import { useUser } from "@/hooks/useUser";
@@ -19,6 +19,8 @@ export default function UserPage({ params }: { params: { id: string } }) {
     isLoading: listsLoading,
     isError: listsError,
   } = useList.GetUserLists(params.id);
+
+  
 
   if (userLoading || listsLoading) {
     return <LoadingScreen />;
