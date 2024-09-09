@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { FaChevronDown } from "react-icons/fa";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 interface UserMenuProps {
   username: string;
