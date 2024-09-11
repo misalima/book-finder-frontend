@@ -1,24 +1,24 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import UserInfo from "../UserInfo";
 import { isIUser} from "@/types/user";
 import UserListsSection from "../UserListsSection";
 import { useList } from "@/hooks/useList";
 import { useUser } from "@/hooks/useUser";
 import LoadingScreen from "@/components/LoadingScreen";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
+import { AxiosError } from "axios";
 
 export default function UserPage({ params }: { params: { id: string } }) {
-  const {
-    data: user,
-    isLoading: userLoading,
-    isError: userError,
-  } = useUser.GetOneUser(params.id);
-  const {
-    data: lists,
-    isLoading: listsLoading,
-    isError: listsError,
-  } = useList.GetUserLists(params.id);
+  const router = useRouter();
+   const {
+     data: user,
+     isLoading: userLoading,
+     isError: userError,
+     error: userFetchError, // Get the error object here
+   } = useUser.GetOneUser(params.id);
+
 
   
 
@@ -26,24 +26,30 @@ export default function UserPage({ params }: { params: { id: string } }) {
     return <LoadingScreen />;
   }
 
-  if (userError) {
-    return (
-      <div className="w-full h-screen bg-red-300 flex items-center justify-center">
-        <h1 className="text-2xl text-white font-medium">
-          An unexpected error occurred while fetching user
-        </h1>
-      </div>
-    );
-  }
+   const {
+     data: lists,
+     isLoading: listsLoading,
+     isError: listsError,
+     error: listsFetchError, // Get the error object here
+   } = useList.GetUserLists(params.id);
 
-  if (listsError) {
-    return (
-      <div className="w-full h-screen bg-red-300 flex items-center justify-center">
-        <h1 className="text-2xl text-white font-medium">
-          Error loading lists: {listsError && "An unknown error occurred"}
-        </h1>
-      </div>
-    );
+
+   // Cast error to AxiosError to access 'response'
+   const userErrorResponse = userFetchError as AxiosError;
+   const listsErrorResponse = listsFetchError as AxiosError;
+
+   // Check for 401 error and redirect
+   useEffect(() => {
+     if (
+       userErrorResponse?.response?.status === 401 ||
+       listsErrorResponse?.response?.status === 401
+     ) {
+       router.push("/login");
+     }
+   }, [userErrorResponse, listsErrorResponse, router]);
+   
+  if (userLoading || listsLoading) {
+    return <LoadingScreen />;
   }
 
   if (isIUser(user) && user.id) {
@@ -56,21 +62,18 @@ export default function UserPage({ params }: { params: { id: string } }) {
           profile_visibility={user.profile_visibility}
           username={user.username}
         />
-        <UserListsSection lists={lists || []} />
+        {listsError ? (
+          <h1 className="text-2xl text-white font-medium">
+            Error loading lists: {listsError && "An unknown error occurred"}
+          </h1>
+        ) : (
+          <UserListsSection lists={lists || []} />
+        )}
       </div>
     );
+  } else {
+    console.error("Unexpected error");
+    router.push("/");
+    return null;
   }
-
-  return (
-    <div className="w-full h-screen bg-red-300 flex items-center justify-center">
-      <h1 className="text-2xl text-white font-medium">
-        An unexpected error occurred.
-      </h1>
-      <Link href="/">
-        <div className="w-[300px] px-3 py-4 bg-white text-primary-green rounded-lg font-medium text-2xl">
-          Voltar para o início
-        </div>
-      </Link>
-    </div>
-  );
 }

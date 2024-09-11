@@ -59,10 +59,10 @@ export default function UserMenu({ username, id }: UserMenuProps) {
             </button>
           </Link>
           <button
-            onClick={() => {
-              signOut();
+            onClick={async () => {
+               await signOut({ redirect: true, callbackUrl: "/" });
               toggleMenu();
-              router.push('/')
+             
             }}
             className="w-full px-4 py-2 text-left text-white hover:bg-gray-100 hover:text-primary-green"
           >

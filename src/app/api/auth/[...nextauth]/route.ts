@@ -45,6 +45,10 @@ const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: "jwt",
+    maxAge: 2 * 60 * 60, //2 hours
+  },
+  jwt: {
+    maxAge: 2 * 60 * 60, // 2 hours
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -52,14 +56,14 @@ const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
-        token.profileVisibility = user.profileVisibility
-        token.createdAt = user.createdAt
+        token.profileVisibility = user.profileVisibility;
+        token.createdAt = user.createdAt;
         token.accessToken = user.access_token;
       }
       return token;
     },
     async session({ session, token }) {
-      if(session && session.user) {
+      if (session && session.user) {
         session.user.id = token.id as string;
         session.user.name = token.name as string;
         session.user.email = token.email as string;
