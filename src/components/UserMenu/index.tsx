@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
 import { FaChevronDown } from "react-icons/fa";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 interface UserMenuProps {
   username: string;
@@ -54,10 +54,10 @@ export default function UserMenu({ username, id }: UserMenuProps) {
             </button>
           </Link>
           <button
-            onClick={() => {
-              signOut();
+            onClick={async () => {
+               await signOut({ redirect: true, callbackUrl: "/" });
               toggleMenu();
-              router.push('/')
+             
             }}
             className="w-full px-4 py-2 text-left text-white hover:bg-gray-100 hover:text-primary-green"
           >

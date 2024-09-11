@@ -18,8 +18,9 @@ export class DefaultApi<T> {
   create = async (formData: T): Promise<T> => {
     const headers = await this.getHeaders();
     const { data } = await api.post<T>(`${this.endpoint}`, formData, {
-      headers,
+        headers,
     });
+    
     return data;
   };
 
