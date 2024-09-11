@@ -12,35 +12,17 @@ export default function Page({ params }: { params: { bookId: string } }) {
   const [publisherName, setPublisherName] = useState<string | null>(null);
   const { data: session } = useSession();
   const router = useRouter();
+  let publicationDate;
+  if (book?.published_date) {
 
+    publicationDate = new Date(book.published_date).getFullYear()
+  }
   useEffect(() => {
     if (session === null) {
       router.push("/login");
     }
   }, [session, router]);
 
-  useEffect(() => {
-    const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const fetchPublisherName = async () => {
-      if (book?.publisherId && session?.accessToken) {
-        try {
-          const response = await axios.get(
-            `${baseURL}/app/publisher/${book.publisherId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${session.accessToken}`,
-              },
-            }
-          );
-          setPublisherName(response.data.name);
-        } catch (error) {
-          console.error("Failed to fetch publisher name", error);
-        }
-      }
-    };
-
-    fetchPublisherName();
-  }, [book?.publisherId, session?.accessToken]);
 
   if (session === undefined) return <LoadingScreen />;
   if (isLoading) return <LoadingScreen />;
@@ -57,8 +39,8 @@ export default function Page({ params }: { params: { bookId: string } }) {
         />
         <div className="ml-6">
           <h1 className="text-4xl font-bold">{book.title}</h1>
-          <h2 className="text-2xl font-semibold mt-2">{book.author}</h2>
-          <p className="text-gray-400">Gênero(s): {book.genre}</p>
+          {/* <h2 className="text-2xl font-semibold mt-2">{book.authors[0]}</h2>
+          <p className="text-gray-400">Gênero(s): {book.genres[0]}</p> */}
           <p className="mt-4">{book.summary}</p>
           <div className="flex items-center mt-4">
             <span className="text-yellow-500 text-xl">
@@ -66,7 +48,7 @@ export default function Page({ params }: { params: { bookId: string } }) {
               ⭐⭐⭐⭐⭐
             </span>
             <span className="ml-2 text-gray-400">
-              ({book.ratings_number || 0})
+              0
             </span>
           </div>
           <button className="mt-4 bg-primary-green px-6 py-2 rounded-md">
@@ -101,7 +83,7 @@ export default function Page({ params }: { params: { bookId: string } }) {
                 <tr className="border border-gray-600">
                   <td className="p-2">Ano de publicação:</td>
                   <td className="p-2">
-                    {new Date(book.published_date).getFullYear()}
+                    {publicationDate || ""}
                   </td>
                 </tr>
                 <tr className="border border-gray-600">
