@@ -1,8 +1,15 @@
 export interface IBook {
-    id?: string
-    title: string
-    author: string
-    coverUrl: string
-    ratingsNumber: number
-    avgRating: number
+  id?: string;
+  isbn: string;
+  title: string;
+  subtitle: string;
+  summary: string;
+  author: string;
+  genre: string;
+  page_count: number;
+  published_date: string;
+  publisherId?: string;
+  cover_image: string;
+  ratings_number?: number;
+  average_rating?: number;
 }
