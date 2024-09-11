@@ -1,5 +1,6 @@
 import { ApiUser } from "@/app/services/user";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 const QUERY_KEY = "qkUser";
 
