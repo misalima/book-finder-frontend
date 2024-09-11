@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import UserInfo from "../UserInfo";
 import { isIUser, IUser } from "@/types/user";
 import UserListsSection from "../UserListsSection";
@@ -31,13 +31,15 @@ export default function UserPage({ params }: { params: { id: string } }) {
    const listsErrorResponse = listsFetchError as AxiosError;
 
    // Check for 401 error and redirect
-   if (
-     userErrorResponse?.response?.status === 401 ||
-     listsErrorResponse?.response?.status === 401
-   ) {
-     router.push("/login");
-     return null; // Stop further rendering
-   }
+   useEffect(() => {
+     if (
+       userErrorResponse?.response?.status === 401 ||
+       listsErrorResponse?.response?.status === 401
+     ) {
+       router.push("/login");
+     }
+   }, [userErrorResponse, listsErrorResponse, router]);
+   
   if (userLoading || listsLoading) {
     return <LoadingScreen />;
   }

@@ -8,7 +8,7 @@ export interface IBook {
   genre: string;
   page_count: number;
   published_date: string;
-  publisher?: string;
+  publisherId?: string;
   cover_image: string;
   ratings_number?: number;
   average_rating?: number;

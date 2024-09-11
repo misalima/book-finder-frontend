@@ -1,14 +1,48 @@
-"use client"; 
+"use client";
 import LoadingScreen from "@/components/LoadingScreen";
 import { useBook } from "@/hooks/useBook";
-import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Page({ params }: { params: { bookId: string } }) {
   const { data: book, isLoading, error } = useBook.GetOneBook(params.bookId);
   const [isMoreInfoVisible, setMoreInfoVisible] = useState(false);
+  const [publisherName, setPublisherName] = useState<string | null>(null);
+  const { data: session } = useSession();
+  const router = useRouter();
 
-  console.log(book)
+  useEffect(() => {
+    if (session === null) {
+      router.push("/login");
+    }
+  }, [session, router]);
 
+  useEffect(() => {
+    const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+    const fetchPublisherName = async () => {
+      if (book?.publisherId && session?.accessToken) {
+        try {
+          const response = await axios.get(
+            `${baseURL}/app/publisher/${book.publisherId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${session.accessToken}`,
+              },
+            }
+          );
+          setPublisherName(response.data.name);
+        } catch (error) {
+          console.error("Failed to fetch publisher name", error);
+        }
+      }
+    };
+
+    fetchPublisherName();
+  }, [book?.publisherId, session?.accessToken]);
+
+  if (session === undefined) return <LoadingScreen />;
   if (isLoading) return <LoadingScreen />;
   if (error) return <p>Ocorreu um erro ao carregar o livro.</p>;
   if (!book) return <p>Detalhes do livro não encontrados.</p>;
@@ -72,7 +106,7 @@ export default function Page({ params }: { params: { bookId: string } }) {
                 </tr>
                 <tr className="border border-gray-600">
                   <td className="p-2">Editora:</td>
-                  <td className="p-2">{book.publisher}</td>
+                  <td className="p-2">{publisherName}</td>
                 </tr>
                 <tr className="border border-gray-600">
                   <td className="p-2">Nº de páginas:</td>
