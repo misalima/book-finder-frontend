@@ -11,6 +11,14 @@ const GetOneBook = (bookId: string) => {
   });
 };
 
+const GetBooksByTitle = (title: string) => {
+    return useQuery({
+        queryKey: [QUERY_KEY, title],
+        queryFn: () => ApiBook.getBooksByTitle(title),
+        enabled: !!title,
+    });
+}
+
 export const useBook = {
-  GetOneBook,
+  GetOneBook, GetBooksByTitle
 };
