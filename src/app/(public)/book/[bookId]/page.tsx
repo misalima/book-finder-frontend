@@ -1,23 +1,29 @@
-"use client";
+"use client"
+import { useState, MouseEvent, useEffect } from "react";
+import { useList } from "@/hooks/useList";
+import SelectListMenu from "@/components/SelectListMenu";
+import { useSession } from "next-auth/react";
+import axios from "axios";
 import LoadingScreen from "@/components/LoadingScreen";
 import { useBook } from "@/hooks/useBook";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 export default function Page({ params }: { params: { bookId: string } }) {
   const { data: book, isLoading, error } = useBook.GetOneBook(params.bookId);
   const [isMoreInfoVisible, setMoreInfoVisible] = useState(false);
   const [publisherName, setPublisherName] = useState<string | null>(null);
+  const [menuPosition, setMenuPosition] = useState<{
+    top: number;
+    left: number;
+  } | null>(null);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const { data: session } = useSession();
-  const router = useRouter();
+  const { data: lists } = useList.GetUserLists(session?.user.id || "");
 
-  useEffect(() => {
-    if (session === null) {
-      router.push("/login");
-    }
-  }, [session, router]);
+  const handleRightClick = (event: MouseEvent) => {
+    event.preventDefault();
+    setMenuPosition({ top: event.clientY, left: event.clientX });
+    setIsMenuVisible(true);
+  };
 
   useEffect(() => {
     const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -48,7 +54,10 @@ export default function Page({ params }: { params: { bookId: string } }) {
   if (!book) return <p>Detalhes do livro não encontrados.</p>;
 
   return (
-    <div className="container mx-auto px-40 py-10 text-white bg-dark-grey">
+    <div
+      className="container mx-auto px-40 py-10 text-white bg-dark-grey"
+      onContextMenu={handleRightClick} // Shows the menu on right-click
+    >
       <div className="flex">
         <img
           src={book.cover_image}
@@ -61,15 +70,19 @@ export default function Page({ params }: { params: { bookId: string } }) {
           <p className="text-gray-400">Gênero(s): {book.genre}</p>
           <p className="mt-4">{book.summary}</p>
           <div className="flex items-center mt-4">
-            <span className="text-yellow-500 text-xl">
-              {/* Replace with actual star ratings */}
-              ⭐⭐⭐⭐⭐
-            </span>
+            <span className="text-yellow-500 text-xl">⭐⭐⭐⭐⭐</span>
             <span className="ml-2 text-gray-400">
               ({book.ratings_number || 0})
             </span>
           </div>
-          <button className="mt-4 bg-primary-green px-6 py-2 rounded-md">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setMenuPosition({ top: e.clientY, left: e.clientX });
+              setIsMenuVisible(!isMenuVisible);
+            }}
+            className="mt-4 bg-primary-green px-6 py-2 rounded-md"
+          >
             Adicionar à lista
           </button>
         </div>
@@ -117,6 +130,27 @@ export default function Page({ params }: { params: { bookId: string } }) {
           </div>
         )}
       </div>
+
+      {/* Popup menu */}
+      {isMenuVisible && menuPosition && (
+        <div
+          className="absolute bg-white text-black shadow-lg rounded-lg border border-gray-300"
+          style={{
+            top: menuPosition.top,
+            left: menuPosition.left,
+            zIndex: 1000,
+          }}
+        >
+          <SelectListMenu
+            lists={lists || []}
+            onSelect={(selectedList) => {
+              // Handle selection
+              console.log(selectedList);
+              setIsMenuVisible(false);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
