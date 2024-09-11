@@ -12,25 +12,26 @@ import { AxiosError } from "axios";
 
 export default function UserPage({ params }: { params: { id: string } }) {
   const router = useRouter();
+
   const {
     data: user,
     isLoading: userLoading,
     isError: userError,
-    error: userFetchError,
+    error: userFetchError, // Pega o erro
   } = useUser.GetOneUser(params.id);
 
   const {
     data: lists,
     isLoading: listsLoading,
     isError: listsError,
-    error: listsFetchError,
+    error: listsFetchError, // Pega o erro
   } = useList.GetUserLists(params.id);
 
-  // Cast error to AxiosError to access 'response'
-  const userErrorResponse = userFetchError as AxiosError;
-  const listsErrorResponse = listsFetchError as AxiosError;
+  // Cast para AxiosError para acessar a 'response'
+  const userErrorResponse = userFetchError as AxiosError | undefined;
+  const listsErrorResponse = listsFetchError as AxiosError | undefined;
 
-  // Check for 401 error and redirect
+  // Redireciona para /login se ocorrer um erro 401 (não autorizado)
   useEffect(() => {
     if (
       userErrorResponse?.response?.status === 401 ||
@@ -42,8 +43,28 @@ export default function UserPage({ params }: { params: { id: string } }) {
 
   if (userLoading || listsLoading) {
     return <LoadingScreen />;
+      signOut();
+      router.push("/login");
+    }
+  }, [userErrorResponse, listsErrorResponse, router]);
+
+  // Condicional de Loading e Erro simplificado
+  if (userLoading || listsLoading) {
+    return <LoadingScreen />;
   }
 
+  // Tratamento de erro genérico no carregamento do usuário ou listas
+  if (userError || listsError) {
+    return (
+      <div className="min-h-screen bg-dark-grey text-white px-8 md:px-40">
+        <h1 className="text-2xl text-white font-medium">
+          Error loading data. Please try again later.
+        </h1>
+      </div>
+    );
+  }
+
+  // Verifica se o usuário está carregado e válido
   if (isIUser(user) && user.id) {
     return (
       <div className="min-h-screen bg-dark-grey text-white px-8 md:px-40">
@@ -54,18 +75,13 @@ export default function UserPage({ params }: { params: { id: string } }) {
           profile_visibility={user.profile_visibility}
           username={user.username}
         />
-        {listsError ? (
-          <h1 className="text-2xl text-white font-medium">
-            Error loading lists: {listsError && "An unknown error occurred"}
-          </h1>
-        ) : (
-          <UserListsSection lists={lists || []} />
-        )}
+        <UserListsSection lists={lists || []} />
       </div>
     );
-  } else {
-    console.error("Unexpected error");
-    router.push("/");
-    return null;
   }
+
+  // Fallback caso algo inesperado ocorra
+  console.error("Unexpected error: Invalid user data.");
+  router.push("/");
+  return null;
 }
