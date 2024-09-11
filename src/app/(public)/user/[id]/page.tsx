@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import UserInfo from "../UserInfo";
-import { isIUser, IUser } from "@/types/user";
+import { isIUser} from "@/types/user";
 import UserListsSection from "../UserListsSection";
 import { useList } from "@/hooks/useList";
 import { useUser } from "@/hooks/useUser";
@@ -19,12 +19,20 @@ export default function UserPage({ params }: { params: { id: string } }) {
      error: userFetchError, // Get the error object here
    } = useUser.GetOneUser(params.id);
 
+
+  
+
+  if (userLoading || listsLoading) {
+    return <LoadingScreen />;
+  }
+
    const {
      data: lists,
      isLoading: listsLoading,
      isError: listsError,
      error: listsFetchError, // Get the error object here
    } = useList.GetUserLists(params.id);
+
 
    // Cast error to AxiosError to access 'response'
    const userErrorResponse = userFetchError as AxiosError;
