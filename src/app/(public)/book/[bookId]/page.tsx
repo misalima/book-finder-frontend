@@ -17,17 +17,6 @@ export default function Page({ params }: { params: { bookId: string } }) {
   } | null>(null);
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const { data: session } = useSession();
-  const router = useRouter();
-  let publicationDate;
-  if (book?.published_date) {
-
-    publicationDate = new Date(book.published_date).getFullYear()
-  }
-  useEffect(() => {
-    if (session === null) {
-      router.push("/login");
-    }
-  }, [session, router]);
   const { data: lists } = useList.GetUserLists(session?.user.id || "");
 
   const handleRightClick = (event: MouseEvent) => {
@@ -103,7 +92,7 @@ export default function Page({ params }: { params: { bookId: string } }) {
                 <tr className="border border-gray-600">
                   <td className="p-2">Ano de publicação:</td>
                   <td className="p-2">
-                    {publicationDate || ""}
+                    {""}
                   </td>
                 </tr>
                 <tr className="border border-gray-600">
