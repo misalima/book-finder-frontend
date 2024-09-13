@@ -10,6 +10,7 @@ export interface FormEditProfile {
   password: string;
   confirmPassword: string;
   newPassword: string;
+  profile_visibility: number;
 }
 
 export default function FormRegistration(user: IUser) {
@@ -22,23 +23,26 @@ export default function FormRegistration(user: IUser) {
   } = useForm<FormEditProfile>({
     defaultValues: {
       username: user.username,
-      email: user.email
+      email: user.email,
+      profile_visibility: user.profile_visibility || 0
     }
   });
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [selected, setSelected] = useState<string | null>("publico");
+  const [selected, setSelected] = useState<number>(user.profile_visibility || 0);
 
   const currentPassword = watch("password");
   const username = watch("username");
   const email = watch("email");
   const newPassword = watch("newPassword");
   const confirmPassword = watch("confirmPassword");
+  const profile_visibility = watch("profile_visibility");
 
   useEffect(() => {
     setValue("username", user.username);
     setValue("email", user.email);
+    setValue("profile_visibility", user.profile_visibility || 0);
   }, [user, setValue]);
 
   const togglePasswordVisibility = () => {
@@ -49,22 +53,30 @@ export default function FormRegistration(user: IUser) {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const handleCheckboxChange = (value: string) => {
+  const handleCheckboxChange = (value: number) => {
     setSelected(value);
+    setValue("profile_visibility", value);
   };
 
   const onSubmit = (data: FormEditProfile) => {
     console.log(data);
   };
 
-  const isButtonDisabled = !(
-    isDirty &&
-    (username !== user.username || email !== user.email ||
-     newPassword || confirmPassword)
-  );
+  const hasChanges = () => {
+    // Verifica se houve mudanças no formulário
+    return (
+      username !== user.username ||
+      email !== user.email ||
+      newPassword ||
+      confirmPassword ||
+      profile_visibility !== user.profile_visibility // Mudança na visibilidade
+    );
+  };
+
+  const isButtonDisabled = !hasChanges(); // Botão desabilitado se não houver mudanças
 
   return (
-    <div className="flex justify-center items-center py-6 px-96 ">
+    <div className="flex justify-center items-center py-6 px-96">
       <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
         <span className="text-white font-bold text-4xl">Editar Perfil</span>
 
@@ -165,8 +177,8 @@ export default function FormRegistration(user: IUser) {
             <input
               id="status-publico"
               type="radio"
-              checked={selected === "publico"}
-              onChange={() => handleCheckboxChange("publico")}
+              checked={selected === 0}
+              onChange={() => handleCheckboxChange(0)}
               className="w-4 h-4 border-gray-300 ml-4"
             />
             <label className="font-medium ml-2 text-white">Público</label>
@@ -176,8 +188,8 @@ export default function FormRegistration(user: IUser) {
             <input
               id="status-privado"
               type="radio"
-              checked={selected === "privado"}
-              onChange={() => handleCheckboxChange("privado")}
+              checked={selected === 1}
+              onChange={() => handleCheckboxChange(1)}
               className="w-4 h-4 ml-4"
             />
             <label className="font-medium ml-2 text-white">Privado</label>

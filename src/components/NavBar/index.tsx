@@ -13,11 +13,12 @@ const NavBar = () => {
 
     const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // const searchTerm = event.target.elements.search.value;
-        // if (searchTerm) {
-        //     router.push(`/search?title=${encodeURIComponent(searchTerm)}`);
-        // }
+        const searchTerm = (event.target as any).search.value; // Recupera o valor do campo de busca
+        if (searchTerm) {
+            router.push(`/books?title=${encodeURIComponent(searchTerm)}`); // Redireciona para a página de resultados
+        }
     };
+    
 
     return (
         <header className="z-50 px-8 md:px-40 h-24 w-full bg-primary-green flex items-center justify-between">
