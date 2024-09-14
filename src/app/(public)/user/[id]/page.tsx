@@ -37,15 +37,6 @@ export default function UserPage({ params }: { params: { id: string } }) {
       userErrorResponse?.response?.status === 401 ||
       listsErrorResponse?.response?.status === 401
     ) {
-<<<<<<< HEAD
-      router.push("/login");
-    }
-  }, [userErrorResponse, listsErrorResponse, router]);
-
-  if (userLoading || listsLoading) {
-    return <LoadingScreen />;
-=======
->>>>>>> 099cd849e2943e47278dfc26a3ac03443b430a28
       signOut();
       router.push("/login");
     }
