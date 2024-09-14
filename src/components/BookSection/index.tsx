@@ -14,7 +14,7 @@ export default function BookSection({ title }: BookSectionProps) {
     <div className="-mt-12 w-full bg-primary-green px-40 py-8">
       <h1 className="text-white text-3xl font-semibold">{title}</h1>
       <div className="flex mt-4">
-      
+        
       </div>
     </div>
     </>
