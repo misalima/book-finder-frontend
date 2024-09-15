@@ -1,7 +1,8 @@
 import React from "react";
 import { IUser } from "@/types/user";
 import { FaUser } from "react-icons/fa";
-
+import { useRouter } from "next/navigation";
+import { FaPen } from "react-icons/fa";
 interface UserInfoProps {
   user: IUser;
 }
@@ -10,6 +11,7 @@ export default function UserInfo(user: IUser) {
   const numberOfFollowers = 20;
   const numberOfFollowing = 13;
   const numberOfLists = 6;
+  const router = useRouter();
 
   return (
     <>
@@ -19,6 +21,12 @@ export default function UserInfo(user: IUser) {
           <h3 className="text-4xl md:text-5xl font-semibold">
             {user.username}
           </h3>
+          <button
+                            className=" bg-primary-green  rounded-2xl p-3"
+                            onClick={() => router.push(`/user/edit-profile/${user.id}`)}
+                        >
+                          <FaPen/>
+                        </button>
         </div>
         <div className="flex md:flex-row flex-col lg:flex-end md:gap-6 xl:gap-20">
           <div className="flex gap-1 items-center mb-1 md:block md:mb-none">

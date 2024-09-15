@@ -53,11 +53,7 @@ export default function UserMenu({ username, id }: UserMenuProps) {
               Meu Perfil
             </button>
           </Link>
-          <Link href={`/user/edit-profile/${id}`}>
-            <button onClick={toggleMenu} className="w-full px-4 py-2 text-left text-white hover:bg-gray-100 hover:text-primary-green">
-              Editar Perfil
-            </button>
-          </Link>
+          
           <button
             onClick={async () => {
                await signOut({ redirect: true, callbackUrl: "/" });

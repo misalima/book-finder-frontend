@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { debounce } from "lodash";
@@ -8,6 +8,8 @@ import { useBook } from "@/hooks/useBook";
 const SearchBar = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [debouncedTerm, setDebouncedTerm] = useState("");
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const { data: books, isLoading, isError } = useBook.GetBooksByTitle(debouncedTerm);
 
@@ -20,6 +22,16 @@ const SearchBar = () => {
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
+        setShowSuggestions(true);
+    };
+
+    const handleBlur = () => {
+        // Usa um timeout para garantir que o clique no item da lista não feche as sugestões imediatamente
+        setTimeout(() => setShowSuggestions(false), 200);
+    };
+
+    const handleFocus = () => {
+        setShowSuggestions(true);
     };
 
     return (
@@ -30,10 +42,13 @@ const SearchBar = () => {
                 placeholder="Buscar por livro"
                 value={searchTerm}
                 onChange={handleChange}
-                className="px-4 py-2 rounded-lg text-lg flex-grow"
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                ref={inputRef}
+                className="px-4 py-2 rounded-lg text-lg flex-grow focus:outline-none"
                 style={{ maxWidth: '500px' }}
             />
-            {searchTerm && (
+            {showSuggestions && searchTerm && (
                 <div className="absolute top-full mt-2 w-full bg-white shadow-lg max-h-60 overflow-y-auto rounded-lg z-10">
                     {isLoading ? (
                         <p className="p-4 text-gray-500">Carregando...</p>
