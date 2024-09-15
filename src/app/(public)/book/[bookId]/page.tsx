@@ -1,41 +1,50 @@
-"use client"
-import { useState, MouseEvent, useEffect } from "react";
+/* eslint-disable @next/next/no-img-element */
+"use client";
+import { useState, useRef, useEffect } from "react";
 import { useList } from "@/hooks/useList";
-import SelectListMenu from "@/components/SelectListMenu";
 import { useSession } from "next-auth/react";
-import axios from "axios";
 import LoadingScreen from "@/components/LoadingScreen";
 import { useBook } from "@/hooks/useBook";
+import { IBook } from "@/types/book";
 
 export default function Page({ params }: { params: { bookId: string } }) {
   const { data: book, isLoading, error } = useBook.GetOneBook(params.bookId);
   const [isMoreInfoVisible, setMoreInfoVisible] = useState(false);
-  const [publisherName, setPublisherName] = useState<string | null>(null);
-  const [menuPosition, setMenuPosition] = useState<{
-    top: number;
-    left: number;
-  } | null>(null);
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const { data: session } = useSession();
-  const router = useRouter();
-  let publicationDate;
-  if (book?.published_date) {
-
-    publicationDate = new Date(book.published_date).getFullYear()
-  }
-  useEffect(() => {
-    if (session === null) {
-      router.push("/login");
-    }
-  }, [session, router]);
   const { data: lists } = useList.GetUserLists(session?.user.id || "");
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [selectedLists, setSelectedLists] = useState<string[]>([]);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  const handleRightClick = (event: MouseEvent) => {
-    event.preventDefault();
-    setMenuPosition({ top: event.clientY, left: event.clientX });
-    setIsMenuVisible(true);
+  // Toggle dropdown visibility
+  const toggleMenu = () => {
+    setIsMenuVisible((prev) => !prev);
   };
 
+  // Handle selecting or deselecting a list
+  const handleSelectList = (listId: string) => {
+    setSelectedLists((prevSelected) =>
+      prevSelected.includes(listId)
+        ? prevSelected.filter((id) => id !== listId)
+        : [...prevSelected, listId]
+    );
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsMenuVisible(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   if (session === undefined) return <LoadingScreen />;
   if (isLoading) return <LoadingScreen />;
@@ -43,10 +52,7 @@ export default function Page({ params }: { params: { bookId: string } }) {
   if (!book) return <p>Detalhes do livro não encontrados.</p>;
 
   return (
-    <div
-      className="container mx-auto px-40 py-10 text-white bg-dark-grey"
-      onContextMenu={handleRightClick} // Shows the menu on right-click
-    >
+    <div className="container mx-auto px-40 py-10 text-white bg-dark-grey">
       <div className="flex">
         <img
           src={book.cover_image}
@@ -55,25 +61,55 @@ export default function Page({ params }: { params: { bookId: string } }) {
         />
         <div className="ml-6">
           <h1 className="text-4xl font-bold">{book.title}</h1>
-          {/* <h2 className="text-2xl font-semibold mt-2">{book.authors[0]}</h2>
-          <p className="text-gray-400">Gênero(s): {book.genres[0]}</p> */}
+          <h2 className="text-2xl font-semibold mt-2">
+            {book.authors.map((author) => author.name).join(", ")}
+          </h2>
+          <p className="text-gray-400">
+            Gênero(s): {book.genres.map((genre) => genre.name).join(", ")}
+          </p>
           <p className="mt-4">{book.summary}</p>
           <div className="flex items-center mt-4">
             <span className="text-yellow-500 text-xl">⭐⭐⭐⭐⭐</span>
-            <span className="ml-2 text-gray-400">
-              0
-            </span>
+            <span className="ml-2 text-gray-400">0</span>
           </div>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              setMenuPosition({ top: e.clientY, left: e.clientX });
-              setIsMenuVisible(!isMenuVisible);
-            }}
-            className="mt-4 bg-primary-green px-6 py-2 rounded-md"
-          >
-            Adicionar à lista
-          </button>
+
+          {/* Adicionar à lista button */}
+          <div className="relative inline-block" ref={dropdownRef}>
+            <button
+              onClick={toggleMenu}
+              className="mt-4 bg-primary-green font-medium px-6 py-2 rounded-md hover:bg-white hover:text-primary-green"
+            >
+              Adicionar à lista
+            </button>
+
+            {isMenuVisible && (
+              <div
+                className={`absolute bottom-full -mb-2 right-0 w-full bg-white text-black shadow-lg rounded-lg border border-gray-300 z-10 transform transition-all duration-300 ease-out ${
+                  isMenuVisible
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 -translate-y-4"
+                }`}
+              >
+                <ul className="max-h-64 overflow-y-auto">
+                  {lists?.map((list) => (
+                    <li
+                      key={list.id}
+                      className="flex items-center justify-between p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+                      onClick={() => handleSelectList(list.id || "")}
+                    >
+                      <span>{list.name}</span>
+                      <input
+                        className="custom-checkbox"
+                        type="checkbox"
+                        checked={selectedLists.includes(list.id || "")}
+                        readOnly
+                      />
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -103,12 +139,12 @@ export default function Page({ params }: { params: { bookId: string } }) {
                 <tr className="border border-gray-600">
                   <td className="p-2">Ano de publicação:</td>
                   <td className="p-2">
-                    {publicationDate || ""}
+                    {new Date(book.published_date).getFullYear()}
                   </td>
                 </tr>
                 <tr className="border border-gray-600">
                   <td className="p-2">Editora:</td>
-                  <td className="p-2">{publisherName}</td>
+                  <td className="p-2">{book.publisher.name}</td>
                 </tr>
                 <tr className="border border-gray-600">
                   <td className="p-2">Nº de páginas:</td>
@@ -119,27 +155,6 @@ export default function Page({ params }: { params: { bookId: string } }) {
           </div>
         )}
       </div>
-
-      {/* Popup menu */}
-      {isMenuVisible && menuPosition && (
-        <div
-          className="absolute bg-white text-black shadow-lg rounded-lg border border-gray-300"
-          style={{
-            top: menuPosition.top,
-            left: menuPosition.left,
-            zIndex: 1000,
-          }}
-        >
-          <SelectListMenu
-            lists={lists || []}
-            onSelect={(selectedList) => {
-              // Handle selection
-              console.log(selectedList);
-              setIsMenuVisible(false);
-            }}
-          />
-        </div>
-      )}
     </div>
   );
 }

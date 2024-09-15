@@ -46,8 +46,7 @@ export default function UserPage({ params }: { params: { id: string } }) {
       signOut();
       router.push("/login");
     }
-  }, [userErrorResponse, listsErrorResponse, router]);
-
+  
   // Condicional de Loading e Erro simplificado
   if (userLoading || listsLoading) {
     return <LoadingScreen />;
