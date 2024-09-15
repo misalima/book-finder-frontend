@@ -52,7 +52,7 @@ export default function Page({ params }: { params: { bookId: string } }) {
   if (!book) return <p>Detalhes do livro não encontrados.</p>;
 
   return (
-    <div className="container mx-auto px-40 py-10 text-white bg-dark-grey">
+    <div className="container mx-auto px-40 py-10 min-h-screen text-white bg-dark-grey">
       <div className="flex">
         <img
           src={book.cover_image}
