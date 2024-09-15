@@ -1,11 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
+"use client"
 import { useState, useRef, useEffect } from "react";
 import { useList } from "@/hooks/useList";
 import { useSession } from "next-auth/react";
 import LoadingScreen from "@/components/LoadingScreen";
 import { useBook } from "@/hooks/useBook";
 import { IBook } from "@/types/book";
+import { useQueries } from "@tanstack/react-query";
 
 export default function Page({ params }: { params: { bookId: string } }) {
   const { data: book, isLoading, error } = useBook.GetOneBook(params.bookId);
@@ -16,7 +17,11 @@ export default function Page({ params }: { params: { bookId: string } }) {
   const [selectedLists, setSelectedLists] = useState<string[]>([]);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  // Toggle dropdown visibility
+  const { mutate: addBookToList } = useBook.AddBookToList();
+  const { mutate: removeBookFromList } = useBook.RemoveBookFromList();
+
+
+   // Toggle dropdown visibility
   const toggleMenu = () => {
     setIsMenuVisible((prev) => !prev);
   };
@@ -25,7 +30,7 @@ export default function Page({ params }: { params: { bookId: string } }) {
   const handleSelectList = (listId: string) => {
     setSelectedLists((prevSelected) =>
       prevSelected.includes(listId)
-        ? prevSelected.filter((id) => id !== listId)
+        ? prevSelected.filter((id) => id !== listId) // Unselect if already selected
         : [...prevSelected, listId]
     );
   };
@@ -45,6 +50,32 @@ export default function Page({ params }: { params: { bookId: string } }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Handle adding/removing the book from the selected lists
+  const handleAddOrRemoveFromLists = () => {
+    lists?.forEach((list) => {
+      const listId = list.id || ""; // Ensure listId is always a string
+
+      if (listId) {
+        // Only proceed if listId is not an empty string
+        const isSelected = selectedLists.includes(listId);
+
+        // Add book to list
+        if (isSelected) {
+          addBookToList({ bookId: params.bookId, listId });
+        }
+
+        // Remove book from list
+        if (!isSelected) {
+          removeBookFromList({ bookId: params.bookId, listId });
+        }
+      }
+    });
+
+    // Close the menu after saving
+    setIsMenuVisible(false);
+  };
+
 
   if (session === undefined) return <LoadingScreen />;
   if (isLoading) return <LoadingScreen />;
@@ -84,29 +115,36 @@ export default function Page({ params }: { params: { bookId: string } }) {
 
             {isMenuVisible && (
               <div
-                className={`absolute bottom-full -mb-2 right-0 w-full bg-white text-black shadow-lg rounded-lg border border-gray-300 z-10 transform transition-all duration-300 ease-out ${
-                  isMenuVisible
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 -translate-y-4"
+                className={`absolute bottom-full -mb-2 right-0 w-full bg-white text-black shadow-lg rounded-lg border border-gray-300 z-10 transform transition-transform duration-300 ease-in-out ${
+                  isMenuVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
                 }`}
               >
                 <ul className="max-h-64 overflow-y-auto">
                   {lists?.map((list) => (
                     <li
                       key={list.id}
-                      className="flex items-center justify-between p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
-                      onClick={() => handleSelectList(list.id || "")}
+                      className="flex items-center justify-between p-2 hover:bg-gray-100 rounded-lg cursor-pointer hover:bg-[#cee]"
                     >
-                      <span>{list.name}</span>
+                      <span onClick={() => handleSelectList(list.id || "")}>
+                        {list.name}
+                      </span>
                       <input
                         className="custom-checkbox"
                         type="checkbox"
                         checked={selectedLists.includes(list.id || "")}
-                        readOnly
+                        onChange={() => handleSelectList(list.id || "")} // Handle checkbox click
                       />
                     </li>
                   ))}
                 </ul>
+                <div className="p-2">
+                  <button
+                    onClick={handleAddOrRemoveFromLists}
+                    className="w-full bg-primary-green font-medium px-6 py-2 rounded-md hover:bg-white hover:text-primary-green"
+                  >
+                    Save to Lists
+                  </button>
+                </div>
               </div>
             )}
           </div>

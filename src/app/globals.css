@@ -19,7 +19,7 @@ body {
   height: 20px;
   appearance: none;
   border-radius: 4px;
-  border: 2px solid var(--dark-grey);
+  border: 2px solid #bbb;
   cursor: pointer;
   position: relative;
   transition: all ease 0.3s;
