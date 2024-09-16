@@ -1,9 +1,10 @@
-import BookList from '@/components/BookList';
+import SearchResults from '@/components/SearchResults';
+import BookList from '@/components/SearchResults';
 
 const BooksPage = () => {
     return (
         <div className="container mx-auto p-4">
-            <BookList />
+            <SearchResults />
         </div>
     );
 };
