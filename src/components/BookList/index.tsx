@@ -1,19 +1,45 @@
+"use client"
+import { useBook } from "@/hooks/useBook";
 import { IBook } from "@/types/book";
-import React from "react";
+import { IBookInList } from "@/types/bookInList";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 interface BookListProps {
   books: IBook[];
-  buttonAction: "addToList" | "viewBook";
+  listId?: string;
+  refetch?: () => void
+  type: "search" | "list";
 }
 
-export default function BookList({ books, buttonAction }: BookListProps) {
-  const buttonText =
-    buttonAction === "addToList" ? "Adicionar à Lista" : "Ver detalhes";
+export default function BookList({ books, type, listId, refetch }: BookListProps) {
+  const router = useRouter();
+  const { mutate: removeBookFromList } = useBook.RemoveBookFromList();
+  
+  const [localBooks, setLocalBooks] = useState(books || []);
 
-   console.log(books)
-    return (
+useEffect(() => {
+  setLocalBooks(books);
+}, [books]);
+
+const handleRemove = (bookId: string) => {
+  if (listId == undefined || !refetch) {
+    console.log("An unknown error occurred");
+  } else {
+    removeBookFromList(
+      { bookId, listId },
+      {
+        onSuccess: () => {
+          refetch();
+          setLocalBooks(localBooks.filter((book) => book.id !== bookId));
+        },
+      }
+    );
+  }
+}
+  return (
     <>
-      <ul className="space-y-4">
+      <ul>
         {books ? (
           books.map((book, index) => {
             const publicationYear = book.published_date
@@ -22,7 +48,7 @@ export default function BookList({ books, buttonAction }: BookListProps) {
             return (
               <li
                 key={index}
-                className="flex items-start space-x-4 p-2 border-b border-gray-300 relative"
+                className="flex items-start space-x-4 px-2 py-3 border-b border-gray-300 relative hover:bg-stone-900"
               >
                 <a href={`/book/${book.id}`} className="flex-shrink-0">
                   <img
@@ -55,13 +81,31 @@ export default function BookList({ books, buttonAction }: BookListProps) {
                     <p className="text-gray-400 text-sm">Autor desconhecido</p>
                   )}
                 </div>
-
-                <button
-                  className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-primary-green text-white text-sm rounded-lg px-3 py-3 flex items-center justify-center hover:bg-blue-600"
-                  onClick={() => console.log(`Livro ${book.title} adicionado`)}
-                >
-                  {buttonText}
-                </button>
+                {type === "search" ? (
+                  <button
+                    className="self-center mb-3 bg-primary-green text-white text-base rounded-lg p-4 flex items-center justify-center hover:bg-emerald-900"
+                    onClick={() =>
+                      console.log(`Livro ${book.title} adicionado`)
+                    }
+                  >
+                    Adicionar à Lista
+                  </button>
+                ) : (
+                  <div className="self-center flex flex-col items-center">
+                    <button
+                      className="w-full self-center mb-3 bg-primary-green text-white text-base rounded-lg p-3 flex items-center justify-center hover:bg-emerald-900"
+                      onClick={() => router.push(`/book/${book.id}`)}
+                    >
+                      Ver detalhes
+                    </button>
+                    <button
+                      onClick={() => handleRemove(book.id)}
+                      className="w-full self-center mb-3 bg-red-900 text-white text-base rounded-lg p-3 flex items-center justify-center hover:bg-red-950"
+                    >
+                      Remover
+                    </button>
+                  </div>
+                )}
               </li>
             );
           })

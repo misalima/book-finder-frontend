@@ -14,17 +14,23 @@ interface ListBarProps {
 export default function ListBar({ id, name }: ListBarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const {
-    data: books,
-    isLoading: isBooksLoading,
-    error: booksError,
+    data: bookIds,
+    isLoading: isBookIdsLoading,
+    error: bookIdsError,
   } = useBook.GetBooksByList(id); // Access the method from useBook
+
+ const {
+   data: books,
+   isLoading: isBooksLoading,
+   error: booksError,
+ } = useBook.GetBooksByIds(bookIds?.map((book) => book.bookId) || []);
 
   const toggleCollapse = () => {
     setIsOpen(!isOpen);
   };
 
-  if (isBooksLoading) return <LoadingScreen />;
-  if (booksError) {
+  if (isBooksLoading || isBookIdsLoading) return <LoadingScreen />;
+  if (booksError || bookIdsError) {
     return (
       <div className="min-h-screen bg-dark-grey text-white px-8 md:px-40">
         <h1 className="text-2xl text-white font-medium">
@@ -49,9 +55,10 @@ export default function ListBar({ id, name }: ListBarProps) {
         } rounded-lg p-4 relative bg-white`}
       >
         <div className="flex gap-4 overflow-hidden ">
-          {books?.slice(0, 11).map((book) => (
-            <div key={book.id} className="flex-shrink-0 w-24">
+          {books?.slice(0, 11).map((book, index) => (
+            <div key={index} className="flex-shrink-0 w-24">
               <img
+                key={index}
                 src={book.cover_image}
                 alt={book.title}
                 className="w-full h-auto object-cover"

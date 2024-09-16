@@ -23,6 +23,7 @@ export default function Page({ params }: { params: { listId: string } }) {
     data: bookIds,
     isLoading: isBookIdsLoading,
     error: bookIdsError,
+    refetch: refetchIds,
   } = useBook.GetBooksByList(params.listId);
 
   // Fetch books details once book IDs are available
@@ -30,7 +31,13 @@ export default function Page({ params }: { params: { listId: string } }) {
     data: books,
     isLoading: isBooksLoading,
     error: booksError,
+    refetch: refetchBooks,
   } = useBook.GetBooksByIds(bookIds?.map((book) => book.bookId) || []);
+
+  const refetchAllBooks = () => {
+    refetchIds();
+    refetchBooks();
+  }
 
   if (isBooksLoading || isListLoading || isUserLoading || isBookIdsLoading)
     return <LoadingScreen />;
@@ -57,7 +64,7 @@ export default function Page({ params }: { params: { listId: string } }) {
         </h2>
       </div>
       <hr />
-      <BookList books={books || []} buttonAction="viewBook" />
+      <BookList books={books || []} type="list" listId={params.listId} refetch={refetchAllBooks} />
     </div>
   );
 }

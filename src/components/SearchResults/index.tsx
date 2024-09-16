@@ -4,7 +4,6 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useBook } from "@/hooks/useBook";
-import { IoIosAdd } from "react-icons/io";
 import BookList from "../BookList";
 
 const SearchResults = () => {
@@ -42,7 +41,7 @@ const SearchResults = () => {
       ) : isError ? (
         <p>Erro ao carregar resultados.</p>
       ) : (
-        <BookList books={books} buttonAction="addToList" />
+        <BookList books={books} type="search" />
       )}
     </div>
   );
