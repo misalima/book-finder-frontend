@@ -27,6 +27,8 @@ export default function UserPage({ params }: { params: { id: string } }) {
     error: listsFetchError, // Pega o erro
   } = useList.GetUserLists(params.id);
 
+  console.log(lists)
+
   // Cast para AxiosError para acessar a 'response'
   const userErrorResponse = userFetchError as AxiosError | undefined;
   const listsErrorResponse = listsFetchError as AxiosError | undefined;
@@ -45,10 +47,8 @@ export default function UserPage({ params }: { params: { id: string } }) {
   // Condicional de Loading e Erro simplificado
   if (userLoading || listsLoading) {
     return <LoadingScreen />;
-      signOut();
-      router.push("/login");
-    }
-  
+  }
+
   // Condicional de Loading e Erro simplificado
   if (userLoading || listsLoading) {
     return <LoadingScreen />;
@@ -76,7 +76,7 @@ export default function UserPage({ params }: { params: { id: string } }) {
           profile_visibility={user.profile_visibility}
           username={user.username}
         />
-        <UserListsSection lists={lists || []} />
+        {lists && (<UserListsSection lists={lists} />)}
       </div>
     );
   }

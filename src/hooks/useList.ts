@@ -24,7 +24,15 @@ const GetUserLists = (userId: string) => {
   });
 };
 
+const GetListById = (listId: string) => {
+  return useQuery<IList>({
+    queryKey: [QUERY_KEY],
+    queryFn: () => ApiList.findOne(listId),
+  });
+}
+
 export const useList = {
   Create,
   GetUserLists,
+  GetListById,
 };

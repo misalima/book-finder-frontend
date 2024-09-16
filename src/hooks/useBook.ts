@@ -1,4 +1,5 @@
 import { ApiBook } from "@/app/services/book/api";
+import { IBook } from "@/types/book";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const QUERY_KEY = "qkBook";
@@ -20,7 +21,7 @@ const GetBooksByTitle = (title: string) => {
 }
 
 const GetBooksByList = (listId: string) => {
-  return useQuery({
+  return useQuery<IBook[], Error>({
     queryKey: [QUERY_KEY, listId],
     queryFn: () => ApiBook.getBooksByList(listId),
     enabled: !!listId,

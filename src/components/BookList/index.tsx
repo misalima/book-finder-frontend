@@ -1,6 +1,5 @@
 import { IBook } from "@/types/book";
 import React from "react";
-import { IoIosAdd } from "react-icons/io";
 
 interface BookListProps {
   books?: IBook[];
@@ -65,7 +64,7 @@ export default function BookList({ books, buttonAction }: BookListProps) {
             );
           })
         ) : (
-          <li className="text-gray-400">Nenhum livro aqui.</li>
+          <li className="p-8 border-b border-gray-300 relative text-gray-400">Nenhum livro aqui.</li>
         )}
       </ul>
     </>

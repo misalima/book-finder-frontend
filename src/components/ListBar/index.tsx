@@ -1,20 +1,38 @@
 "use client";
+import { useBook } from "@/hooks/useBook";
 /* eslint-disable @next/next/no-img-element */
 import { IBook } from "@/types/book";
+import Link from "next/link";
 import React, { useState } from "react";
+import LoadingScreen from "../LoadingScreen";
 
 interface ListBarProps {
-  id?: string;
+  id: string;
   name: string;
-  books: IBook[];
 }
 
-export default function ListBar({ id, name, books }: ListBarProps) {
+export default function ListBar({ id, name }: ListBarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const {
+    data: books,
+    isLoading: isBooksLoading,
+    error: booksError,
+  } = useBook.GetBooksByList(id); // Access the method from useBook
 
   const toggleCollapse = () => {
     setIsOpen(!isOpen);
   };
+
+  if (isBooksLoading) return <LoadingScreen />;
+  if (booksError) {
+    return (
+      <div className="min-h-screen bg-dark-grey text-white px-8 md:px-40">
+        <h1 className="text-2xl text-white font-medium">
+          Error loading data. Please try again later.
+        </h1>
+      </div>
+    );
+  }
   return (
     <div>
       <div
@@ -31,19 +49,21 @@ export default function ListBar({ id, name, books }: ListBarProps) {
         } rounded-lg p-4 relative bg-white`}
       >
         <div className="flex gap-4 overflow-hidden ">
-          {books.slice(0, 11).map((book) => (
+          {books?.slice(0, 11).map((book) => (
             <div key={book.id} className="flex-shrink-0 w-24">
               <img
-                src={book.coverUrl}
+                src={book.cover_image}
                 alt={book.title}
                 className="w-full h-auto object-cover"
               />
             </div>
           ))}
         </div>
-        <button className="absolute right-2 bottom-2 self-end px-3 py-1 rounded-md bg-primary-green">
-          Ver lista completa
-        </button>
+        <Link href={`/list/${id}`}>
+          <button className="absolute right-2 bottom-2 self-end px-3 py-1 rounded-md bg-primary-green">
+            Ver lista completa
+          </button>
+        </Link>
       </div>
     </div>
   );
