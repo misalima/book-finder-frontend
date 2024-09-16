@@ -24,6 +24,14 @@ const SearchResults = () => {
     }
   }, [title]);
 
+  if(books == undefined) {
+    return (
+      <div className="h-screen bg-dark-grey text-red-800">
+        Um erro ocorreu: não foi possível encontrar os livros.
+      </div>
+    );
+  }
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4 text-white">

@@ -1,6 +1,7 @@
 import { IBook } from "@/types/book";
 import { DefaultApi } from "../default";
 import { api } from "@/app/services/api";
+import { IBookInList } from "@/types/bookInList";
 
 const endpoint = "/app/book";
 const resourceId = "id";
@@ -21,7 +22,7 @@ class BookApi extends DefaultApi<IBook> {
     return data;
   };
 
-  getBooksByList = async (listId: string): Promise<IBook[]> => {
+  getBooksByList = async (listId: string): Promise<IBookInList[]> => {
     const headers = await this.getHeaders();
     const { data } = await api.get<IBook[]>(`${this.endpoint}/list/${listId}`, {
       headers,

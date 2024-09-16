@@ -2,24 +2,26 @@ import { IBook } from "@/types/book";
 import React from "react";
 
 interface BookListProps {
-  books?: IBook[];
-  buttonAction: "addToList" | "viewBook" 
+  books: IBook[];
+  buttonAction: "addToList" | "viewBook";
 }
 
 export default function BookList({ books, buttonAction }: BookListProps) {
-  const buttonText = buttonAction === "addToList" ? "Adicionar à Lista" : "Ver detalhes"
+  const buttonText =
+    buttonAction === "addToList" ? "Adicionar à Lista" : "Ver detalhes";
 
-  return (
+   console.log(books)
+    return (
     <>
       <ul className="space-y-4">
-        {books?.length ? (
-          books.map((book) => {
+        {books ? (
+          books.map((book, index) => {
             const publicationYear = book.published_date
               ? new Date(book.published_date).getFullYear()
               : "Ano desconhecido";
             return (
               <li
-                key={book.id}
+                key={index}
                 className="flex items-start space-x-4 p-2 border-b border-gray-300 relative"
               >
                 <a href={`/book/${book.id}`} className="flex-shrink-0">
@@ -64,7 +66,9 @@ export default function BookList({ books, buttonAction }: BookListProps) {
             );
           })
         ) : (
-          <li className="p-8 border-b border-gray-300 relative text-gray-400">Nenhum livro aqui.</li>
+          <li className="p-8 border-b border-gray-300 relative text-gray-400">
+            Nenhum livro aqui.
+          </li>
         )}
       </ul>
     </>

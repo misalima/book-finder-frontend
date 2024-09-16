@@ -20,16 +20,28 @@ export default function Page({ params }: { params: { listId: string } }) {
   } = useUser.GetOneUser(list?.userId || "");
 
   const {
+    data: bookIds,
+    isLoading: isBookIdsLoading,
+    error: bookIdsError,
+  } = useBook.GetBooksByList(params.listId);
+
+  // Fetch books details once book IDs are available
+  const {
     data: books,
     isLoading: isBooksLoading,
     error: booksError,
-  } = useBook.GetBooksByList(params.listId); // Access the method from useBook
+  } = useBook.GetBooksByIds(bookIds?.map((book) => book.bookId) || []);
 
-  if (isBooksLoading || isListLoading || isUserLoading) return <LoadingScreen />;
-  if (booksError || listError || userError)
+  if (isBooksLoading || isListLoading || isUserLoading || isBookIdsLoading)
+    return <LoadingScreen />;
+  if (booksError || listError || userError || bookIdsError)
     return (
       <div className="h-screen bg-dark-grey text-red-800">
-        Error: {booksError?.message || listError?.message || userError?.message}
+        Error:{" "}
+        {booksError?.message ||
+          listError?.message ||
+          userError?.message ||
+          bookIdsError?.message}
       </div>
     );
 
@@ -45,7 +57,7 @@ export default function Page({ params }: { params: { listId: string } }) {
         </h2>
       </div>
       <hr />
-      <BookList books={books} buttonAction="viewBook" />
+      <BookList books={books || []} buttonAction="viewBook" />
     </div>
   );
 }
