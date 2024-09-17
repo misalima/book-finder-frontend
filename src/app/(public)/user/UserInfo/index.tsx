@@ -7,7 +7,7 @@ interface UserInfoProps {
   user: IUser;
 }
 
-export default function UserInfo(user: IUser) {
+export default function UserInfo({ user }: UserInfoProps) {
   const numberOfFollowers = 20;
   const numberOfFollowing = 13;
   const numberOfLists = 6;

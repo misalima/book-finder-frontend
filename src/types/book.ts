@@ -30,4 +30,5 @@ export interface IBook {
   authors: Author[];
   genres: Genre[];
   publisher: Publisher;
+  status?: string;
 }

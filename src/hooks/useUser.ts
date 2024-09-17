@@ -1,6 +1,7 @@
 import { ApiUser } from "@/app/services/user";
+import { IRegisterUser } from "@/types/registerUser";
+import { IUser } from "@/types/user";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 
 const QUERY_KEY = "qkUser";
 
@@ -16,7 +17,7 @@ const Create = () => {
 };
 
 const GetOneUser = (userId: string) => {
-  return useQuery({
+  return useQuery<IUser | IRegisterUser>({
     queryKey: [QUERY_KEY, userId],
     queryFn: () => ApiUser.findOne(userId),
     enabled: !!userId,

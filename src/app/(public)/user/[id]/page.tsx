@@ -1,88 +1,60 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import UserInfo from "../UserInfo";
-import { isIUser } from "@/types/user";
 import UserListsSection from "../UserListsSection";
+import LoadingScreen from "@/components/LoadingScreen";
+import CreateListModal from "@/components/CreateListModal";
 import { useList } from "@/hooks/useList";
 import { useUser } from "@/hooks/useUser";
-import LoadingScreen from "@/components/LoadingScreen";
-import { useRouter } from "next/navigation";
-import { signOut } from "next-auth/react";
-import { AxiosError } from "axios";
+import { BsPlusCircleFill } from "react-icons/bs";
+import { isIUser } from "@/types/user";
 
 export default function UserPage({ params }: { params: { id: string } }) {
-  const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const {
     data: user,
     isLoading: userLoading,
     isError: userError,
-    error: userFetchError, // Pega o erro
   } = useUser.GetOneUser(params.id);
-
   const {
     data: lists,
     isLoading: listsLoading,
     isError: listsError,
-    error: listsFetchError, // Pega o erro
+    refetch: refetchLists,
   } = useList.GetUserLists(params.id);
 
-  // Cast para AxiosError para acessar a 'response'
-  const userErrorResponse = userFetchError as AxiosError | undefined;
-  const listsErrorResponse = listsFetchError as AxiosError | undefined;
+  const toggleModal = () => setIsModalOpen(!isModalOpen);
 
-  // Redireciona para /login se ocorrer um erro 401 (não autorizado)
-  useEffect(() => {
-    if (
-      userErrorResponse?.response?.status === 401 ||
-      listsErrorResponse?.response?.status === 401
-    ) {
-      signOut();
-      router.push("/login");
-    }
-  }, [userErrorResponse, listsErrorResponse, router]);
+  if (userLoading || listsLoading) return <LoadingScreen />;
+  if (userError || listsError)
+    return <div>Error loading data. Please try again.</div>;
 
-  // Condicional de Loading e Erro simplificado
-  if (userLoading || listsLoading) {
-    return <LoadingScreen />;
-      signOut();
-      router.push("/login");
-    }
-  
-  // Condicional de Loading e Erro simplificado
-  if (userLoading || listsLoading) {
-    return <LoadingScreen />;
+  if(!isIUser(user)) {
+    return (<div>
+      <h1>Ocorreu um erro. Tente novamente</h1>
+    </div>)
   }
 
-  // Tratamento de erro genérico no carregamento do usuário ou listas
-  if (userError || listsError) {
-    return (
-      <div className="min-h-screen bg-dark-grey text-white px-8 md:px-40">
-        <h1 className="text-2xl text-white font-medium">
-          Error loading data. Please try again later.
-        </h1>
+  return (
+    <div className="min-h-screen bg-dark-grey text-white px-8 md:px-40">
+      <UserInfo user={user} />
+      <UserListsSection lists={lists} />
+      <div className="flex items-center justify-end py-4">
+        <button
+          onClick={toggleModal}
+          className="bg-primary-green text-white text-base rounded-lg p-4 flex flex-row gap-3 items-center hover:bg-emerald-900"
+        >
+          <BsPlusCircleFill className="text-2xl" />
+          <p>Nova Lista</p>
+        </button>
       </div>
-    );
-  }
 
-  // Verifica se o usuário está carregado e válido
-  if (isIUser(user) && user.id) {
-    return (
-      <div className="min-h-screen bg-dark-grey text-white px-8 md:px-40">
-        <UserInfo
-          id={user.id}
-          createdAt={user.createdAt}
-          email={user.email}
-          profile_visibility={user.profile_visibility}
-          username={user.username}
-        />
-        <UserListsSection lists={lists || []} />
-      </div>
-    );
-  }
-
-  // Fallback caso algo inesperado ocorra
-  console.error("Unexpected error: Invalid user data.");
-  router.push("/");
-  return null;
+      <CreateListModal
+        isOpen={isModalOpen}
+        onClose={toggleModal}
+        refetch={refetchLists}
+      />
+    </div>
+  );
 }

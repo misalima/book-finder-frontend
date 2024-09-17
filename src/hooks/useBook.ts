@@ -1,4 +1,6 @@
 import { ApiBook } from "@/app/services/book/api";
+import { IBook } from "@/types/book";
+import { IBookInList } from "@/types/bookInList";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const QUERY_KEY = "qkBook";
@@ -11,6 +13,14 @@ const GetOneBook = (bookId: string) => {
   });
 };
 
+const GetBooksByIds = (bookIds: string[]) => {
+  return useQuery({
+    queryKey: ["books", ...bookIds],
+    queryFn: () => Promise.all(bookIds.map((id) => ApiBook.findOne(id))),
+    enabled: bookIds.length > 0,
+  });
+};
+
 const GetBooksByTitle = (title: string) => {
     return useQuery({
         queryKey: [QUERY_KEY, title],
@@ -20,7 +30,7 @@ const GetBooksByTitle = (title: string) => {
 }
 
 const GetBooksByList = (listId: string) => {
-  return useQuery({
+  return useQuery<IBookInList[], Error>({
     queryKey: [QUERY_KEY, listId],
     queryFn: () => ApiBook.getBooksByList(listId),
     enabled: !!listId,
@@ -73,5 +83,5 @@ const RemoveBookFromList = () => {
 
 
 export const useBook = {
-  GetBooksByList, GetOneBook, GetBooksByTitle, AddBookToList, RemoveBookFromList
+  GetBooksByIds, GetBooksByList, GetOneBook, GetBooksByTitle, AddBookToList, RemoveBookFromList
 };
