@@ -19,14 +19,14 @@ const Create = () => {
 
 const GetUserLists = (userId: string) => {
   return useQuery<IList[], Error>({
-    queryKey: [QUERY_KEY],
+    queryKey: [QUERY_KEY, userId],
     queryFn: () => ApiList.getUserLists(userId),
   });
 };
 
 const GetListById = (listId: string) => {
   return useQuery<IList>({
-    queryKey: [QUERY_KEY],
+    queryKey: [QUERY_KEY, listId],
     queryFn: () => ApiList.findOne(listId),
   });
 }

@@ -11,21 +11,18 @@ interface UserListsSectionProps {
 export default function UserListsSection({ lists }: UserListsSectionProps) {
   const [arrayLists, setArrayLists] = useState<IList[]>([]);
 
-
   useEffect(() => {
     if (Array.isArray(lists)) {
       setArrayLists(lists);
     } else {
-      setArrayLists([]); 
+      setArrayLists([]);
     }
-  }, [lists]); 
+  }, [lists]);
 
-  
   if (lists === undefined) {
     return <div className="h-screen bg-dark-grey text-white">Loading...</div>;
   }
 
-  
   if (!Array.isArray(arrayLists)) {
     return (
       <div className="h-screen bg-dark-grey text-red-800">
@@ -40,7 +37,7 @@ export default function UserListsSection({ lists }: UserListsSectionProps) {
       <div className="flex flex-col gap-6 py-3">
         {arrayLists.length > 0 ? (
           arrayLists.map((list, index) => (
-            <ListBar key={index} id={list.id} name={list.name} />
+            <ListBar key={index} id={list.id || ""} name={list.name} />
           ))
         ) : (
           <p className="text-gray-400">Nenhuma lista encontrada.</p>
