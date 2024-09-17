@@ -22,9 +22,11 @@ export default function RootLayout({
       <body className={roboto.className}>
         <QueryClientProvider client={queryClient}>
           <SessionProvider>
-            <NavBar />
-            {children}
+            <div className="flex flex-col justify-between min-h-screen bg-dark-grey">
+              <NavBar />
+              {children}
             <Footer />
+            </div>
           </SessionProvider>
         </QueryClientProvider>
       </body>

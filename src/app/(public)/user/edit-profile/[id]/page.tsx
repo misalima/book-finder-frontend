@@ -5,7 +5,7 @@ import { useUser } from "@/hooks/useUser";
 import LoadingScreen from "@/components/LoadingScreen";
 
 
-export default function App({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: { id: string } }) {
   const {
     data: user,
     isLoading: userLoading,
@@ -29,10 +29,9 @@ export default function App({ params }: { params: { id: string } }) {
   if (isIUser(user) && user.id) {
     return (
       
-      <div className="bg-dark-grey">
+      <div className="bg-dark-grey py-14">
         <FormEditProfile 
-          email={user.email}
-          username={user.username} profile_visibility={0} createdAt={""}/>
+          user={user}/>
         </div>
       
       
