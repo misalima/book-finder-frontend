@@ -47,7 +47,7 @@ body {
 }
 
 .loader {
-  border-color: var(--dark-grey) transparent transparent transparent;
+  border-color: var(--primary-green) transparent transparent transparent;
   animation: spin 1.5s linear infinite;
 }
 

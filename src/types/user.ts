@@ -2,8 +2,9 @@ export interface IUser {
   id?: string;
   email: string;
   username: string;
-  profile_visibility: number;
-  createdAt: string;
+  password?: string;
+  profile_visibility?: 0 | 1;
+  createdAt?: string;
 }
 
 export function isIUser(obj: any): obj is IUser {
