@@ -23,7 +23,7 @@ export default function UserPage({ params }: { params: { id: string } }) {
     isError: listsError,
     refetch: refetchLists,
   } = useList.GetUserLists(params.id);
-
+ 
   const toggleModal = () => setIsModalOpen(!isModalOpen);
 
   if (userLoading || listsLoading) return <LoadingScreen />;

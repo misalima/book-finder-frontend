@@ -1,7 +1,7 @@
 "use client";
 import BookList from "@/components/BookList";
 import LoadingScreen from "@/components/LoadingScreen";
-import { useBook } from "@/hooks/useBook"; // Import the object containing the methods
+import { useBook } from "@/hooks/useBook";
 import { useList } from "@/hooks/useList";
 import { useUser } from "@/hooks/useUser";
 import Link from "next/link";
@@ -26,18 +26,23 @@ export default function Page({ params }: { params: { listId: string } }) {
     refetch: refetchIds,
   } = useBook.GetBooksByList(params.listId);
 
-  // Fetch books details once book IDs are available
   const {
     data: books,
     isLoading: isBooksLoading,
     error: booksError,
     refetch: refetchBooks,
-  } = useBook.GetBooksByIds(bookIds?.map((book) => book.bookId) || []);
+  } = useBook.GetBooksByIds(bookIds?.map((book) => book.book.id) || []);
 
   const refetchAllBooks = () => {
     refetchIds();
     refetchBooks();
-  }
+  };
+
+  // Combine status with each book
+  const booksWithStatus = books?.map((book) => {
+    const bookStatus = bookIds?.find((b) => b.book.id === book.id)?.status.name;
+    return { ...book, status: bookStatus }; // Adding the status field
+  });
 
   if (isBooksLoading || isListLoading || isUserLoading || isBookIdsLoading)
     return <LoadingScreen />;
@@ -64,7 +69,12 @@ export default function Page({ params }: { params: { listId: string } }) {
         </h2>
       </div>
       <hr />
-      <BookList books={books || []} type="list" listId={params.listId} refetch={refetchAllBooks} />
+      <BookList
+        books={booksWithStatus || []}
+        type="list"
+        listId={params.listId}
+        refetch={refetchAllBooks}
+      />
     </div>
   );
 }

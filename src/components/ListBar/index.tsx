@@ -19,11 +19,12 @@ export default function ListBar({ id, name }: ListBarProps) {
     error: bookIdsError,
   } = useBook.GetBooksByList(id); // Access the method from useBook
 
+  console.log(bookIds)
  const {
    data: books,
    isLoading: isBooksLoading,
    error: booksError,
- } = useBook.GetBooksByIds(bookIds?.map((book) => book.bookId) || []);
+ } = useBook.GetBooksByIds(bookIds?.map((book) => book.book.id) || []);
 
   const toggleCollapse = () => {
     setIsOpen(!isOpen);

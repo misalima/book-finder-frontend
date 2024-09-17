@@ -1,5 +1,15 @@
+interface Book {
+    id: string,
+    title: string,
+}
+
+interface Status {
+    id: string,
+    name: string,
+}
+
+
 export interface IBookInList {
-    bookId: string,
-    statusId: string,
-    listId: string, 
+    book: Book,
+    status: Status,
 }
