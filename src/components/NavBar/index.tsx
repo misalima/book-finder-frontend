@@ -41,10 +41,7 @@ const NavBar = () => {
             </form>
             <div className="flex items-center space-x-4">
                 {session ? (
-                    <UserMenu
-                        username={session.user?.name || "User"}
-                        id={session.user?.id}
-                    />
+                    <UserMenu/>
                 ) : (
                     <div className="flex items-center space-x-4">
                         <button

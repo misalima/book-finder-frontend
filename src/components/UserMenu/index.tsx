@@ -1,19 +1,14 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { FaChevronDown } from "react-icons/fa";
-import { useRouter } from "next/navigation";
 
-interface UserMenuProps {
-  username: string;
-  id: string;
-}
 
-export default function UserMenu({ username, id }: UserMenuProps) {
+export default function UserMenu() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
+  const { data: session } = useSession();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -38,7 +33,7 @@ export default function UserMenu({ username, id }: UserMenuProps) {
         onClick={toggleMenu}
         className="bg-dark-grey px-4 py-2 rounded-lg text-white font-medium flex items-center hover:bg-gray-600"
       >
-        {username}
+        {session?.user?.name}
         <FaChevronDown className="ml-2 text-white" />
       </button>
       <div
@@ -48,7 +43,7 @@ export default function UserMenu({ username, id }: UserMenuProps) {
         style={{ overflow: "hidden" }}
       >
         <div className="flex flex-col">
-          <Link href={`/user/${id}`}>
+          <Link href={`/user/${session?.user?.id}`}>
             <button onClick={toggleMenu} className="w-full px-4 py-2 text-left text-white hover:bg-gray-100 hover:text-primary-green">
               Meu Perfil
             </button>

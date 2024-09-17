@@ -6,6 +6,7 @@ import { IUser } from "@/types/user";
 import { useUser } from "@/hooks/useUser";
 import Error from "../Error";
 import Success from "../Success";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export interface FormEditProfile {
   username: string;
@@ -46,6 +47,7 @@ export default function FormRegistration({ user }: { user: IUser }) {
   const [errs, setErrs] = useState<string[]>([]);
   const [success, setSuccess] = useState(false);
   const { mutateAsync: updateUser } = useUser.Update();
+  const { data: session, update } = useSession();
 
   const currentPassword = watch("password");
   const newPassword = watch("newPassword");
@@ -53,6 +55,13 @@ export default function FormRegistration({ user }: { user: IUser }) {
   const username = watch("username");
   const email = watch("email");
   const profile_visibility = watch("profile_visibility");
+
+  const handleUpdateSession = async (updatedUser: IUpdateUser) => {
+   update({
+     user: { ...session?.user, name: updatedUser.username },
+   });
+   console.log("Session updated:", session)
+  };
 
   useEffect(() => {
     setValue("username", user.username);
@@ -79,13 +88,14 @@ export default function FormRegistration({ user }: { user: IUser }) {
       if (data.username !== user.username) updateData.username = data.username;
       if (data.email !== user.email) updateData.email = data.email;
       if (data.password) updateData.password = data.password;
-      if (data.newPassword && data.password) updateData.newPassword = data.newPassword;
+      if (data.newPassword && data.password)
+        updateData.newPassword = data.newPassword;
       updateData.profile_visibility = data.profile_visibility;
-      
-      await updateUser(updateData);
 
+      const updatedUser = await updateUser(updateData);
+      handleUpdateSession(updatedUser as IUpdateUser);
       setSuccess(true);
-      setTimeout(() => setSuccess(false), 5000);
+      setTimeout(() => setSuccess(false), 3000);
     } catch (error: unknown) {
       const apiError = error as ApiError;
       const errorMessage =
@@ -99,30 +109,30 @@ export default function FormRegistration({ user }: { user: IUser }) {
     }
   };
 
- const hasChanges = () => {
-   const hasUsernameChanged = username !== user.username;
-   const hasEmailChanged = email !== user.email;
-   const hasProfileVisibilityChanged =
-     profile_visibility !== user.profile_visibility;
+  const hasChanges = () => {
+    const hasUsernameChanged = username !== user.username;
+    const hasEmailChanged = email !== user.email;
+    const hasProfileVisibilityChanged =
+      profile_visibility !== user.profile_visibility;
 
-   // Check if passwords are present and valid
-   const hasPasswordChange =
-     (currentPassword && newPassword) || (currentPassword && confirmPassword);
+    // Check if passwords are present and valid
+    const hasPasswordChange =
+      (currentPassword && newPassword) || (currentPassword && confirmPassword);
 
-   // New password should be different from current password
-   const isNewPasswordValid = !newPassword || newPassword !== currentPassword;
+    // New password should be different from current password
+    const isNewPasswordValid = !newPassword || newPassword !== currentPassword;
 
-   // Ensure new password and confirm password match if they are provided
-   const isConfirmPasswordValid =
-     !confirmPassword || confirmPassword === newPassword;
+    // Ensure new password and confirm password match if they are provided
+    const isConfirmPasswordValid =
+      !confirmPassword || confirmPassword === newPassword;
 
-   return (
-     hasUsernameChanged ||
-     hasEmailChanged ||
-     hasProfileVisibilityChanged ||
-     (hasPasswordChange && isNewPasswordValid && isConfirmPasswordValid)
-   );
- };
+    return (
+      hasUsernameChanged ||
+      hasEmailChanged ||
+      hasProfileVisibilityChanged ||
+      (hasPasswordChange && isNewPasswordValid && isConfirmPasswordValid)
+    );
+  };
 
   const isButtonDisabled = !hasChanges();
 
