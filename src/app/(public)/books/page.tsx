@@ -1,11 +1,13 @@
 import SearchResults from '@/components/SearchResults';
-import BookList from '@/components/SearchResults';
+import Head from 'next/head';
 
 const BooksPage = () => {
     return (
+      <>
         <div className="container mx-auto p-4">
-            <SearchResults />
+          <SearchResults />
         </div>
+      </>
     );
 };
 

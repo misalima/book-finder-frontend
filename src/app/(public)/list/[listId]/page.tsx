@@ -4,6 +4,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 import { useBook } from "@/hooks/useBook";
 import { useList } from "@/hooks/useList";
 import { useUser } from "@/hooks/useUser";
+import Head from "next/head";
 import Link from "next/link";
 
 export default function Page({ params }: { params: { listId: string } }) {
@@ -58,23 +59,25 @@ export default function Page({ params }: { params: { listId: string } }) {
     );
 
   return (
-    <div className="px-40 h-screen bg-dark-grey">
-      <div className="px-2 py-10">
-        <h2 className="text-3xl font-semibold text-white">{list?.name}</h2>
-        <h2 className="mt-3 text-lg text-gray-300">
-          by{" "}
-          <Link href={`/user/${user?.id}`}>
-            <span className="font-medium text-xl">{user?.username}</span>
-          </Link>
-        </h2>
+    <>
+      <div className="px-40 h-screen bg-dark-grey">
+        <div className="px-2 py-10">
+          <h2 className="text-3xl font-semibold text-white">{list?.name}</h2>
+          <h2 className="mt-3 text-lg text-gray-300">
+            by{" "}
+            <Link href={`/user/${user?.id}`}>
+              <span className="font-medium text-xl">{user?.username}</span>
+            </Link>
+          </h2>
+        </div>
+        <hr />
+        <BookList
+          books={booksWithStatus || []}
+          type="list"
+          listId={params.listId}
+          refetch={refetchAllBooks}
+        />
       </div>
-      <hr />
-      <BookList
-        books={booksWithStatus || []}
-        type="list"
-        listId={params.listId}
-        refetch={refetchAllBooks}
-      />
-    </div>
+    </>
   );
 }

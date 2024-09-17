@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import LoadingScreen from "@/components/LoadingScreen";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Head from "next/head";
 
 export default function App() {
   const { data: session } = useSession();

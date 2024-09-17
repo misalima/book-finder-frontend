@@ -3,7 +3,7 @@ import FormEditProfile from "@/components/FormEditProfile";
 import { isIUser } from "@/types/user";
 import { useUser } from "@/hooks/useUser";
 import LoadingScreen from "@/components/LoadingScreen";
-
+import Head from "next/head";
 
 export default function Page({ params }: { params: { id: string } }) {
   const {
@@ -12,7 +12,6 @@ export default function Page({ params }: { params: { id: string } }) {
     isError: userError,
   } = useUser.GetOneUser(params.id);
 
-  
   if (userLoading) {
     return <LoadingScreen />;
   }
@@ -28,14 +27,11 @@ export default function Page({ params }: { params: { id: string } }) {
   }
   if (isIUser(user) && user.id) {
     return (
-      
-      <div className="bg-dark-grey py-14">
-        <FormEditProfile 
-          user={user}/>
+      <>
+        <div className="bg-dark-grey py-14">
+          <FormEditProfile user={user} />
         </div>
-      
-      
+      </>
     );
   }
 }
-  
