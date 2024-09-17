@@ -28,7 +28,7 @@ export default function Page({ params }: { params: { id: string } }) {
   if (isIUser(user) && user.id) {
     return (
       <>
-        <div className="bg-dark-grey py-14">
+        <div className="bg-dark-grey py-14 h-screen">
           <FormEditProfile user={user} />
         </div>
       </>

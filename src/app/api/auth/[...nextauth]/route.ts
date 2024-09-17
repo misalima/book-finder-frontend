@@ -9,7 +9,7 @@ const authOptions: NextAuthOptions = {
       name: "Credentials",
       credentials: {
         email: { label: "email", type: "email" },
-        password: { label: "passord", type: "password" },
+        password: { label: "password", type: "password" },
       },
       async authorize(credentials) {
         try {
@@ -51,7 +51,10 @@ const authOptions: NextAuthOptions = {
     maxAge: 2 * 60 * 60, // 2 hours
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      if(trigger === "update" &&  session?.user.name ) {
+          token.name = session?.user.name;
+      }
       if (user) {
         token.id = user.id;
         token.name = user.name;
