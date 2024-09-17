@@ -10,7 +10,7 @@ interface UserListsSectionProps {
 
 export default function UserListsSection({ lists }: UserListsSectionProps) {
   const [arrayLists, setArrayLists] = useState<IList[]>([]);
-
+  
   useEffect(() => {
     if (Array.isArray(lists)) {
       setArrayLists(lists);
