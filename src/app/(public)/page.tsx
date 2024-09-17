@@ -31,7 +31,7 @@ export default function App() {
         <h3 className="max-w-md text-white text-2xl mt-8">
           Sua próxima grande leitura está a um clique de distância.
         </h3>
-        <button className="mt-8 bg-white px-12 py-3 rounded-lg text-lg font-semibold text-primary-green hover:bg-[#dddddd]">
+        <button onClick={() => router.push('/register')} className="mt-8 bg-white px-12 py-3 rounded-lg text-lg font-semibold text-primary-green hover:bg-[#dddddd]">
           Comece agora
         </button>
       </div>

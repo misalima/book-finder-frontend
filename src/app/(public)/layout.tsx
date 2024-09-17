@@ -28,7 +28,7 @@ export default function RootLayout({
       <body className={roboto.className}>
         <QueryClientProvider client={queryClient}>
           <SessionProvider>
-            <div className="flex flex-col justify-between min-h-screen bg-dark-grey">
+            <div className="flex flex-col justify-between min-h-screen">
               <NavBar />
               {children}
               <Footer />
