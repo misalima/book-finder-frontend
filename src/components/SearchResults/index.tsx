@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useBook } from "@/hooks/useBook";
 import BookList from "../BookList";
+import LoadingScreen from "../LoadingScreen";
+import Error from "../Error";
 
 const SearchResults = () => {
   const searchParams = useSearchParams();
@@ -23,27 +25,30 @@ const SearchResults = () => {
     }
   }, [title]);
 
-  if(books == undefined) {
+  if (isLoading) {
+    return <LoadingScreen />;
+  } else if (isError) {
     return (
-      <div className="h-screen bg-dark-grey text-red-800">
-        Um erro ocorreu: não foi possível encontrar os livros.
+      <div className="h-screen">
+        <Error message={"Algum erro inesperado aconteceu. Tente novamente."} />
       </div>
     );
   }
-
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4 text-white">
-        Resultados para &quot;{title}&quot;
-      </h1>
-      {isLoading ? (
-        <p>Carregando...</p>
-      ) : isError ? (
-        <p>Erro ao carregar resultados.</p>
-      ) : (
-        <BookList books={books} type="search" />
-      )}
-    </div>
+    <>
+      <div className="p-4 min-h-screen">
+        <h1 className="text-2xl font-bold mb-4 text-white">
+          Resultados para &quot;{title}&quot;
+        </h1>
+        {books && books.length > 0 ? (
+          <BookList books={books} type="search" />
+        ) : (
+          <div className="px-2 py-3">
+            <h3 className="text-white text-lg">Nenhum livro foi encontrado com a(s) palavra(s) buscadas.</h3>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

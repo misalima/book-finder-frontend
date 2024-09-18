@@ -1,5 +1,5 @@
 import SearchResults from '@/components/SearchResults';
-import Head from 'next/head';
+
 
 const BooksPage = () => {
     return (
