@@ -2,25 +2,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import UserMenu from "../UserMenu";
-import SearchBar from "../SearchBar";
+import { SearchBooks } from "../SearchBooks/index";
 
 const NavBar = () => {
     const { data: session } = useSession();
     const router = useRouter();
 
-    const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const searchTerm = (event.target as any).search.value; // Recupera o valor do campo de busca
-        if (searchTerm) {
-            router.push(`/books?title=${encodeURIComponent(searchTerm)}`); // Redireciona para a página de resultados
-        }
-    };
-
     return (
-        <header className="z-50 px-8 md:px-40 h-24 w-full bg-primary-green flex items-center justify-between">
+        <header className="z-50 px-8 md:px-40 h-24 w-full bg-primary-green flex items-center">
             <Link href="/">
                 <Image
                     className="max-h-[60px] cursor-pointer"
@@ -30,15 +22,9 @@ const NavBar = () => {
                     src="/images/logo.png"
                 />
             </Link>
-            <form onSubmit={handleSearchSubmit} className="flex items-center">
-                <SearchBar/>
-                <button
-                    type="submit"
-                    className="ml-3 bg-gray-300 px-4 py-2 rounded-lg text-lg text-primary-green hover:bg-secondary-green hover:text-white"
-                >
-                    Buscar
-                </button>
-            </form>
+            <div className="flex items-center flex-1 px-16">
+                <SearchBooks />
+            </div>
             <div className="flex items-center space-x-4">
                 {session ? (
                     <UserMenu/>
