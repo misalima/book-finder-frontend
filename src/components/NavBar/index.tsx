@@ -30,7 +30,6 @@ const NavBar = () => {
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Atualiza a lista de elementos focáveis dinamicamente
       const focusable = Array.from(
         nav.querySelectorAll<HTMLElement>(focusableSelectors)
       );
@@ -98,11 +97,7 @@ const NavBar = () => {
         {session ? (
           <UserMenu />
         ) : (
-          <div
-            className="flex items-center space-x-4"
-            role="group"
-            aria-label="Ações de login e cadastro"
-          >
+          <>
             <button
               aria-label="Entrar na conta"
               className="bg-white px-8 py-2 rounded-lg text-lg font-medium text-primary-green hover:bg-[#dddddd]"
@@ -117,7 +112,7 @@ const NavBar = () => {
             >
               Cadastrar
             </button>
-          </div>
+          </>
         )}
       </div>
     </header>
