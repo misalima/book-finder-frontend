@@ -28,11 +28,13 @@ const NavBar = () => {
 
     const focusableSelectors =
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-    let focusable = Array.from(
-      nav.querySelectorAll<HTMLElement>(focusableSelectors)
-    );
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Atualiza a lista de elementos focáveis dinamicamente
+      const focusable = Array.from(
+        nav.querySelectorAll<HTMLElement>(focusableSelectors)
+      );
+
       const index = focusable.indexOf(document.activeElement as HTMLElement);
       if (index === -1) return;
 
@@ -78,7 +80,7 @@ const NavBar = () => {
         role="search"
         aria-label="Barra de busca de livros"
       >
-        <SearchBar/>
+        <SearchBar />
         <button
           type="submit"
           aria-label="Buscar livros"
@@ -96,7 +98,11 @@ const NavBar = () => {
         {session ? (
           <UserMenu />
         ) : (
-          <div className="flex items-center space-x-4" role="group" aria-label="Ações de login e cadastro">
+          <div
+            className="flex items-center space-x-4"
+            role="group"
+            aria-label="Ações de login e cadastro"
+          >
             <button
               aria-label="Entrar na conta"
               className="bg-white px-8 py-2 rounded-lg text-lg font-medium text-primary-green hover:bg-[#dddddd]"
