@@ -53,9 +53,8 @@ const NavBar = () => {
   }, []);
 
   return (
-    <header
+    <nav
       ref={navRef}
-      role="navigation"
       aria-label="Barra de navegação principal do site"
       className="z-50 px-8 md:px-40 h-24 w-full bg-primary-green flex items-center justify-between"
     >
@@ -115,7 +114,7 @@ const NavBar = () => {
           </>
         )}
       </div>
-    </header>
+    </nav>
   );
 };
 
