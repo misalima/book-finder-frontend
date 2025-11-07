@@ -5,21 +5,13 @@ import { useRouter, usePathname } from "next/navigation";
 import React, { useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import UserMenu from "../UserMenu";
-import SearchBar from "../SearchBar";
+import { SearchBooks } from "../SearchBooks/index";
 
 const NavBar = () => {
   const { data: session } = useSession();
   const router = useRouter();
   const pathname = usePathname();
   const navRef = useRef<HTMLDivElement>(null);
-
-  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const searchTerm = (event.target as any).search.value;
-    if (searchTerm) {
-      router.push(`/books?title=${encodeURIComponent(searchTerm)}`);
-    }
-  };
 
   // Acessibilidade: mover foco com setas
   useEffect(() => {
@@ -72,21 +64,9 @@ const NavBar = () => {
         />
       </Link>
 
-      <form
-        onSubmit={handleSearchSubmit}
-        className="flex items-center"
-        role="search"
-        aria-label="Barra de busca de livros"
-      >
-        <SearchBar />
-        <button
-          type="submit"
-          aria-label="Buscar livros"
-          className="ml-3 bg-gray-300 px-4 py-2 rounded-lg text-lg text-primary-green hover:bg-secondary-green hover:text-white"
-        >
-          Buscar
-        </button>
-      </form>
+      <div className="flex items-center flex-1 px-16">
+        <SearchBooks />
+      </div>
 
       <div
         className="flex items-center space-x-4"
