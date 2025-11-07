@@ -91,7 +91,7 @@ export const SearchBooks = () => {
 
     useEffect(() => {
         if (activeIndex >= 0 && listRef.current) {
-            const activeItem = listRef.current?.querySelector(`#suggestion-${activeIndex}`);
+            const activeItem = listRef.current.querySelector(`#suggestion-${activeIndex}`);
             if (activeItem) {
                 activeItem.scrollIntoView({ block: "nearest", behavior: "smooth" });
             }
