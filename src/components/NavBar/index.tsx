@@ -78,7 +78,7 @@ const NavBar = () => {
         role="search"
         aria-label="Barra de busca de livros"
       >
-        <SearchBar aria-label="Campo de busca de livros" />
+        <SearchBar/>
         <button
           type="submit"
           aria-label="Buscar livros"
@@ -94,7 +94,7 @@ const NavBar = () => {
         aria-label="Área de autenticação do usuário"
       >
         {session ? (
-          <UserMenu aria-label="Menu do usuário logado" />
+          <UserMenu />
         ) : (
           <div className="flex items-center space-x-4" role="group" aria-label="Ações de login e cadastro">
             <button

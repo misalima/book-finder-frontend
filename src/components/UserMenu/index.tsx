@@ -4,7 +4,6 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { FaChevronDown } from "react-icons/fa";
 
-
 export default function UserMenu() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -31,11 +30,13 @@ export default function UserMenu() {
     <div className="relative" ref={menuRef}>
       <button
         onClick={toggleMenu}
+        aria-label="Menu do usuário logado"
         className="bg-dark-grey px-4 py-2 rounded-lg text-white font-medium flex items-center hover:bg-gray-600"
       >
         {session?.user?.name}
         <FaChevronDown className="ml-2 text-white" />
       </button>
+
       <div
         className={`absolute right-0 mt-2 w-48 bg-dark-grey border rounded-lg shadow-lg transition-all duration-300 ease-out ${
           menuOpen ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
@@ -44,16 +45,18 @@ export default function UserMenu() {
       >
         <div className="flex flex-col">
           <Link href={`/user/${session?.user?.id}`}>
-            <button onClick={toggleMenu} className="w-full px-4 py-2 text-left text-white hover:bg-gray-100 hover:text-primary-green">
+            <button
+              onClick={toggleMenu}
+              className="w-full px-4 py-2 text-left text-white hover:bg-gray-100 hover:text-primary-green"
+            >
               Meu Perfil
             </button>
           </Link>
-          
+
           <button
             onClick={async () => {
-               await signOut({ redirect: true, callbackUrl: "/" });
+              await signOut({ redirect: true, callbackUrl: "/" });
               toggleMenu();
-             
             }}
             className="w-full px-4 py-2 text-left text-white hover:bg-gray-100 hover:text-primary-green"
           >
