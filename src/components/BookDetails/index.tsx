@@ -50,7 +50,7 @@ export default function BookDetails({ book, lists, onAddBookToList }: BookDetail
                     />
                   )
                 ))}
-                <span className="text-gray-400 text-sm whitespace-nowrap" aria-label={`${avaliations} avaliações`}>
+                <span className="text-gray-400 text-sm whitespace-nowrap">
                   ({avaliations} avaliações)
                 </span>
               </div>
@@ -66,13 +66,13 @@ export default function BookDetails({ book, lists, onAddBookToList }: BookDetail
 
           <section className="flex-1 mt-6 md:mt-0" aria-label="Informações do livro">
             <h1 className="text-4xl font-bold">{book.title}</h1>
-            <h2 className="text-xl font-semibold mt-2" aria-label="Autores do livro">
+            <h2 className="text-xl font-semibold mt-2">
               Autor(es): {book.authors.map((author) => author.name).join(", ")}
             </h2>
-            <p className="text-gray-400" aria-label="Gêneros do livro">
+            <p className="text-gray-400">
               Gênero(s): {book.genres.map((genre) => genre.name).join(", ")}
             </p>
-            <p className="mt-4" aria-label="Sinopse do livro">{book.summary}</p>
+            <p className="mt-4">{book.summary}</p>
             
             <div className="flex flex-col mt-4">
               <button
@@ -96,7 +96,7 @@ export default function BookDetails({ book, lists, onAddBookToList }: BookDetail
                   role="region"
                   aria-label="Informações adicionais do livro"
                 >
-                  <table className="w-full table-auto border-collapse border border-gray-600" role="table" aria-label="Detalhes técnicos do livro">
+                  <table className="w-full table-auto border-collapse border border-gray-600" aria-label="Detalhes técnicos do livro">
                     <tbody>
                       <tr className="border border-gray-600">
                         <th scope="row" className="p-2 text-left font-normal">ISBN:</th>
