@@ -1,18 +1,13 @@
 "use client";
-import { useState } from "react";
 import { useSession } from "next-auth/react";
 import LoadingScreen from "@/components/LoadingScreen";
 import { useBook } from "@/hooks/useBook";
-import { IBook } from "@/types/book";
 import { useList } from "@/hooks/useList";
-import AddToListButton from "@/components/AddToListButton";
-import Head from "next/head";
 import BookDetails from "@/components/BookDetails";
 import JumboImg from "@/components/JumboImg";
 
 export default function Page({ params }: { params: { bookId: string } }) {
   const { data: book, isLoading, error } = useBook.GetOneBook(params.bookId);
-  const [isMoreInfoVisible, setMoreInfoVisible] = useState(false);
   const { data: session } = useSession();
   const { data: lists } = useList.GetUserLists(session?.user.id || "");
 
