@@ -13,7 +13,7 @@ export interface BookDetailsProps {
 export default function BookDetails({ book, lists, onAddBookToList }: BookDetailsProps) {
   const [isMoreInfoVisible, setIsMoreInfoVisible] = useState(false);
   const rating = 5;
-  const avaliations = 100;
+  const reviews = 100;
 
   return (
     <article 
@@ -56,7 +56,7 @@ export default function BookDetails({ book, lists, onAddBookToList }: BookDetail
                 )
               ))}
               <span className="text-gray-400 text-sm whitespace-nowrap">
-                ({avaliations} avaliações)
+                ({reviews} avaliações)
               </span>
             </div>
             <div className="mt-2 w-full">
