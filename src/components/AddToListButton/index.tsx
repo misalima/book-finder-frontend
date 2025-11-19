@@ -62,7 +62,7 @@ const AddToListButton = ({
       </button>
 
       {isMenuVisible && (
-        <div className="absolute right-0 mt-2 w-64 bg-white text-black shadow-lg rounded-lg border border-gray-300 z-50">
+        <div className="absolute mt-2 w-64 bg-white text-black shadow-lg rounded-lg border border-gray-300 z-50">
           <ul className="max-h-64 overflow-y-auto">
             {lists.map((list) => (
               <li
