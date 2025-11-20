@@ -28,7 +28,6 @@ export default function App() {
           <button 
             onClick={() => router.push('/register')} 
             className="mt-8 bg-white px-12 py-3 rounded-lg text-lg font-semibold text-primary-green hover:bg-[#dddddd]"
-            aria-label="Clique para ir para a página de cadastro"
           >
             Comece agora
           </button>
