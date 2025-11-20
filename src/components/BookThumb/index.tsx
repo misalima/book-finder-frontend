@@ -16,9 +16,8 @@ export default function BookThumb({ title, cover_image, id }: IBook) {
           <Image
             src={cover_image || "/images/notfoundbook.jpg"}
             alt={`Capa do livro ${title}`}
-            width={220}
-            height={280}
-            className="absolute inset-0 w-full h-full object-cover"
+            fill
+            className="object-cover"
           />
         </div>
         <h3 className="justify-end text-sm font-medium mt-4">{title}</h3>
