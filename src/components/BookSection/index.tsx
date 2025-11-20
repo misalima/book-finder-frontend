@@ -29,7 +29,6 @@ export default function BookSection({ title }: BookSectionProps) {
           className="font-medium z-[100] rounded-md px-8 py-4 bg-none text-white"
           role="status"
           aria-live="polite"
-          aria-label="Carregando livros"
         >
           Carregando...
         </div>
