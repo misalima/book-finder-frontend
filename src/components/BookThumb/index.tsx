@@ -24,7 +24,6 @@ export default function BookThumb({ title, cover_image, id }: IBook) {
       </Link>
       <div 
         className="flex justify-end px-2 items-center mt-2"
-        role="img"
         aria-label="Avaliação: 5.0 de 5 estrelas, 134 avaliações"
       >
         <div className="flex flex-row items-center" aria-hidden="true">

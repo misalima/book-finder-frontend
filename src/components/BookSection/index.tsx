@@ -26,7 +26,7 @@ export default function BookSection({ title }: BookSectionProps) {
       </h2>
       {isLoading ? (
         <div 
-          className="font-medium z-[100] rounded-md px-8 py-4 bg-none text-white"
+          className="font-medium z-[100] rounded-md px-8 py-4 text-white"
           role="status"
           aria-live="polite"
         >
@@ -45,7 +45,6 @@ export default function BookSection({ title }: BookSectionProps) {
           className="flex mt-4 gap-4 overflow-x-auto overflow-y-hidden pb-4"
           role="region"
           aria-label={`Lista de ${title.toLowerCase()}`}
-          tabIndex={0}
         >
           {books &&
             books.map((book, index) => {
