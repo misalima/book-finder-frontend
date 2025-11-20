@@ -38,7 +38,6 @@ export default function BookSection({ title }: BookSectionProps) {
           className="text-red-600 mt-4 p-4 bg-none rounded-lg"
           role="alert"
           aria-live="assertive"
-          aria-label="Um erro ocorreu ao buscar os livros"
         >
           Um erro ocorreu ao buscar os livros
         </div>
