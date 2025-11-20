@@ -34,7 +34,7 @@ export default function BookSection({ title }: BookSectionProps) {
         </div>
       ) : isError ? (
         <div 
-          className="text-red-600 mt-4 p-4 bg-none rounded-lg"
+          className="text-red-600 mt-4 p-4 rounded-lg"
           role="alert"
           aria-live="assertive"
         >
