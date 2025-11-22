@@ -33,7 +33,7 @@ export default function App() {
           </button>
         </div>
         <JumboImg />
-        <BookSection title="Livros mais populares" />
+        <BookSection />
       </>
     );
   }

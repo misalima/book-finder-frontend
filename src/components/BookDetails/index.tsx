@@ -16,13 +16,14 @@ export default function BookDetails({ book, lists, onAddBookToList }: BookDetail
   const reviews = 100;
 
   return (
-    <article 
+    <div 
       className="container mx-auto max-w-6xl px-16 pt-6 pb-8 my-4 text-white bg-dark-grey rounded-lg h-[80vh] overflow-y-auto scrollbar-thin" 
       aria-label={`Detalhes do livro ${book.title}`}
     >
       <div className="flex flex-col md:flex-row gap-6">
         <div 
           className="w-full max-w-64 md:w-64 mx-auto md:mx-0 min-w-0" 
+          role="region"
           aria-label="Capa e avaliação do livro"
         >
           <div className="aspect-[2/3] w-full">
@@ -34,10 +35,9 @@ export default function BookDetails({ book, lists, onAddBookToList }: BookDetail
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="flex flex-col mt-4 w-full">
+          <div className="flex flex-col mt-4 w-full" aria-label="Avaliação do livro e botão de adicionar a lista">
             <div 
               className="flex flex-wrap items-center gap-1 text-yellow-500"
-              role="img"
               aria-label={`Avaliação: ${rating} de 5 estrelas`}
             >
               {[...Array(5)].map((_, i) => (
@@ -69,15 +69,19 @@ export default function BookDetails({ book, lists, onAddBookToList }: BookDetail
           </div>
         </div>
 
-        <section className="flex-1 mt-6 md:mt-0" aria-label="Informações do livro">
-          <h1 className="text-4xl font-bold">{book.title}</h1>
-          <h2 className="text-xl font-semibold mt-2">
+        <div className="flex-1 mt-6 md:mt-0" aria-label="Informações do livro">
+          <h1 className="text-4xl font-bold" role="heading" aria-level={1} aria-label="Título do livro">
+            Título: {book.title}
+          </h1>
+          <h2 className="text-xl font-semibold mt-2" role="heading" aria-level={2} aria-label="Autor(es) do livro">
             Autor(es): {book.authors.map((author) => author.name).join(", ")}
           </h2>
-          <h3 className="text-gray-400 mt-2">
+          <h3 className="text-gray-400 mt-2" role="heading" aria-level={3} aria-label="Gênero(s) do livro">
             Gênero(s): {book.genres.map((genre) => genre.name).join(", ")}
           </h3>
-          <p className="mt-4">{book.summary}</p>
+          <p className="mt-4" role="text" aria-label="Resumo do livro">
+            {book.summary}
+          </p>
           
           <div className="flex flex-col mt-4">
             <button
@@ -126,8 +130,8 @@ export default function BookDetails({ book, lists, onAddBookToList }: BookDetail
               </div>
             )}
           </div>
-        </section>
+        </div>
       </div>
-    </article>
+    </div>
   );
 }

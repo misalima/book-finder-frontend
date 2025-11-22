@@ -6,11 +6,13 @@ import { FaStar } from "react-icons/fa";
 
 export default function BookThumb({ title, cover_image, id }: IBook) {
   return (
-    <article className="flex flex-col justify-between px-2 py-2 bg-white rounded-lg shadow-lg flex-none w-[220px]">
+    <div 
+      className="flex flex-col justify-between px-2 py-2 bg-white rounded-lg shadow-lg flex-none w-[220px]"
+      role="link"
+      aria-label={`Ver detalhes do livro ${title}`}
+    >
       <Link 
         href={`/book/${id}`}
-        className="focus:outline-none focus:ring-2 focus:ring-primary-green focus:ring-offset-2 rounded-lg"
-        aria-label={`Ver detalhes do livro ${title}`}
       >
         <div className="bg-primary-green h-[280px] relative rounded-lg overflow-hidden">
           <Image
@@ -32,6 +34,6 @@ export default function BookThumb({ title, cover_image, id }: IBook) {
           <span className="text-sm mb-0.5">(134)</span>
         </div>
       </div>
-    </article>
+    </div>
   );
 }

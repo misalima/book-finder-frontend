@@ -110,17 +110,15 @@ export const SearchBooks = () => {
             <div className="relative">
                 <input
                     ref={inputRef}
-                    id="search-books"
                     type="search"
                     role="combobox"
-                    aria-label="Buscar por livro"
-                    aria-autocomplete="list"
+                    
                     aria-expanded={showSuggestions}
                     aria-controls="search-suggestions"
                     aria-activedescendant={
                         activeIndex >= 0 && showSuggestions ? `suggestion-${activeIndex}` : undefined
                     }
-                    aria-haspopup="listbox"
+                    
                     value={searchTerm}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -142,15 +140,9 @@ export const SearchBooks = () => {
                 </div>
             
                 <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
-                    {isLoading
-                        ? "Carregando resultados..."
-                        : isError
-                        ? "Erro ao carregar resultados."
-                        : hasResults
+                    {hasResults
                         ? `${resultsCount} ${resultsCount === 1 ? 
                             'resultado encontrado' : 'resultados encontrados'}.`
-                        : debouncedSearchTerm
-                        ? "Nenhum livro encontrado."
                         : ""}
                 </div>
 
@@ -169,7 +161,6 @@ export const SearchBooks = () => {
                             {hasResults ? (
                                 <ul
                                     ref={listRef}
-                                    id="search-suggestions"
                                     role="listbox"
                                     aria-label="Sugestões de livros"
                                     className="max-h-80 overflow-y-auto"
