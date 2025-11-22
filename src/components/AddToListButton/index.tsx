@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
+import { useToast } from "@/components/Toast/ToastContext";
 
 interface AddToListButtonProps {
   bookId: string;
@@ -16,6 +17,7 @@ const AddToListButton = ({
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [selectedLists, setSelectedLists] = useState<string[]>([]);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const { showToast } = useToast();
 
   const toggleMenu = () => {
     setIsMenuVisible((prev) => !prev);
@@ -45,11 +47,38 @@ const AddToListButton = ({
   }, []);
 
   const handleAddToLists = () => {
-    selectedLists.forEach((listId) => {
-      onAddBookToList(bookId, listId);
-    });
+    if (selectedLists.length === 0) return;
 
-    setIsMenuVisible(false);
+    const promises = selectedLists.map((listId) =>
+      Promise.resolve(onAddBookToList(bookId, listId)).then(
+        () => ({ listId, ok: true }),
+        (err) => ({ listId, ok: false, error: err })
+      )
+    );
+
+    Promise.all(promises).then((results) => {
+      const success = results.filter((r) => r.ok).length;
+      const failed = results.filter((r) => !r.ok);
+
+      if (success > 0) {
+        if (selectedLists.length === 1) {
+          const list = lists.find((l) => l.id === selectedLists[0]);
+          const name = list?.name ?? "lista";
+          showToast("success", `Livro adicionado à ${name}.`);
+        } else {
+          showToast("success", "Livro adicionado às listas selecionadas.");
+        }
+      }
+
+      if (failed.length > 0) {
+        showToast(
+          "error",
+          "Não foi possível adicionar o livro a uma ou mais listas."
+        );
+      }
+
+      setIsMenuVisible(false);
+    });
   };
 
   return (
@@ -96,7 +125,9 @@ const AddToListButton = ({
               </button>
             ) : (
               <Link href={"/login"}>
-                <h3 className="text-primary-green p-2 font-medium text-center">Faça login para adicionar a uma lista</h3>
+                <h3 className="text-primary-green p-2 font-medium text-center">
+                  Faça login para adicionar a uma lista
+                </h3>
                 <button className="w-full font-medium px-6 py-2 rounded-md transition-colors bg-primary-green text-white hover:bg-emerald-900">
                   Fazer Login
                 </button>
