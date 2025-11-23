@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useList } from "@/hooks/useList";
+import { useToast } from "@/components/Toast/ToastContext";
 import { AiOutlineClose } from "react-icons/ai";
 
 interface CreateListModalProps {
@@ -18,6 +19,7 @@ export default function CreateListModal({
   const [listVisibility, setListVisibility] = useState<0 | 1>(0); // 0 for public, 1 for private
 
   const { mutate: createList } = useList.Create(); // Assuming you have a hook for list creation
+  const { showToast } = useToast();
 
   const handleSelect = (e: any) => {
     let vis: 0 | 1 = e.target.value; 
@@ -38,10 +40,13 @@ export default function CreateListModal({
         onSuccess: () => {
           refetch(); // Refresh the lists after successful creation
           onClose(); // Close the modal
+          setListName("");
+          setListVisibility(0);
+          showToast("success", "Lista criada com sucesso");
         },
         onError: (error: any) => {
           console.error("Error creating list:", error);
-          alert("Failed to create the list. Please try again.");
+          showToast("error", "Falha ao criar a lista. Tente novamente.");
         },
       }
     );

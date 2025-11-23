@@ -1,11 +1,11 @@
 "use client";
 import { Roboto } from "next/font/google";
+// @ts-ignore: side-effect import of global CSS (type declaration for '*.css' can be added separately)
 import "../globals.css";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Head from "next/head";
 import { ToastProvider } from "@/components/Toast/ToastContext";
 
 const queryClient = new QueryClient();
