@@ -43,7 +43,7 @@ export default function UserPage({ params }: { params: { id: string } }) {
     <>
     <JumboImg />
       <div className="container mx-auto max-w-6xl px-16 pt-6 pb-8 my-4 text-white bg-dark-grey rounded-lg h-[80vh] overflow-y-auto scrollbar-thin">
-        <UserInfo user={user} />
+        <UserInfo user={user} listsCount={lists?.length} />
         <UserListsSection lists={lists} />
         <div className="flex items-center justify-end py-4">
           <button
