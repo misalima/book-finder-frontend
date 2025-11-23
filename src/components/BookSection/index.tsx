@@ -2,11 +2,7 @@ import React from "react";
 import BookThumb from "../BookThumb";
 import { useBook } from "@/hooks/useBook";
 
-interface BookSectionProps {
-  title: string;
-}
-
-export default function BookSection({ title }: BookSectionProps) {
+export default function BookSection() {
   const {
     data: books,
     isLoading,
@@ -14,15 +10,15 @@ export default function BookSection({ title }: BookSectionProps) {
   } = useBook.GetBooksByTitle("Web Programming");
 
   return (
-    <section 
+    <div 
       className="container mx-auto max-w-6xl px-16 pt-4 pb-8 my-12 bg-primary-green rounded-lg"
-      aria-labelledby="book-section-title"
+      role="region"
+      aria-label={`Seção de livros mais populares`}
     >
       <h2 
-        id="book-section-title"
         className="text-white mt-6 text-3xl font-semibold"
       >
-        {title}
+        Livros mais populares
       </h2>
       {isLoading ? (
         <div 
@@ -43,8 +39,7 @@ export default function BookSection({ title }: BookSectionProps) {
       ) : (
         <div 
           className="flex mt-4 gap-4 overflow-x-auto overflow-y-hidden pb-4"
-          role="region"
-          aria-label={`Lista de ${title.toLowerCase()}`}
+          aria-label={`Lista de livros mais populares`}
         >
           {books &&
             books.map((book, index) => {
@@ -52,6 +47,6 @@ export default function BookSection({ title }: BookSectionProps) {
             })}
         </div>
       )}
-    </section>
+    </div>
   );
 }
