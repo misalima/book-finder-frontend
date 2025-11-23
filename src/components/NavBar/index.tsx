@@ -49,22 +49,21 @@ const NavBar = () => {
       ref={navRef}
       aria-label="Barra de navegação principal do site"
       className="z-50 px-8 md:px-40 h-24 w-full bg-primary-green flex items-center justify-between"
-    >
-      <div 
+    > 
+      <Link 
+        href="/"
         className="cursor-pointer"
-        role="link" 
         aria-label="Ir para a página inicial do site"
-      >  
-        <Link href="/">
-          <Image
-            className="max-h-[60px]"
-            alt="Logo da Livraria"
-            width={160}
-            height={60}
-            src="/images/logo.png"
-          />
-        </Link>
-      </div>
+      >
+        <Image
+          className="max-h-[60px]"
+          alt="Logo da Livraria"
+          width={160}
+          height={60}
+          src="/images/logo.png"
+        />
+      </Link>
+      
 
       <div className="flex items-center flex-1 px-16">
         <SearchBooks />

@@ -39,7 +39,6 @@ export default function BookSection() {
       ) : (
         <div 
           className="flex mt-4 gap-4 overflow-x-auto overflow-y-hidden pb-4"
-          role="region"
           aria-label={`Lista de livros mais populares`}
         >
           {books &&
