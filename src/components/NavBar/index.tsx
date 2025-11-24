@@ -68,8 +68,6 @@ const NavBar = () => {
 
       <div
         className="flex items-center flex-1 px-16"
-        role="search"
-        aria-label="Busca de livros"
       >
         <SearchBooks />
       </div>
