@@ -36,7 +36,7 @@ const SearchResults = () => {
   }
   return (
     <>
-      <div className="p-4 min-h-screen">
+      <div className="p-4 min-h-screen max-w-6xl mx-auto">
         <h1 className="text-2xl font-bold mb-4 text-white" aria-hidden="true">
           Resultados para &quot;{title}&quot;
         </h1>
