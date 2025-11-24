@@ -54,6 +54,7 @@ const NavBar = () => {
         href="/"
         className="cursor-pointer"
         aria-label="Ir para a página inicial do site"
+        aria-current={pathname === "/" ? "page" : undefined}
       >
         <Image
           className="max-h-[60px]"
@@ -65,7 +66,9 @@ const NavBar = () => {
       </Link>
       
 
-      <div className="flex items-center flex-1 px-16">
+      <div
+        className="flex items-center flex-1 px-16"
+      >
         <SearchBooks />
       </div>
 
@@ -79,14 +82,12 @@ const NavBar = () => {
         ) : (
           <>
             <button
-              aria-label="Entrar na conta"
               className="bg-white px-8 py-2 rounded-lg text-lg font-medium text-primary-green hover:bg-[#dddddd]"
               onClick={() => router.push("/login")}
             >
               Entrar
             </button>
             <button
-              aria-label="Cadastrar nova conta"
               className="ring-2 ring-white ring-inset bg-primary-green w-28 py-2 rounded-lg text-lg font-medium text-white hover:bg-secondary-green"
               onClick={() => router.push("/register")}
             >

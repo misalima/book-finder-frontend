@@ -92,7 +92,7 @@ export default function FormRegistration() {
       <div className="min-h-screen grid grid-cols-2">
         <div className="bg-primary-green w-full">
           <div className="flex justify-center items-center h-screen">
-            <Link href={"/"}>
+            <Link href={"/"} aria-label="Ir para a página inicial">
               <Image
                 alt="logo"
                 width={480}
@@ -104,48 +104,88 @@ export default function FormRegistration() {
         </div>
         <div className="flex flex-col justify-center items-center bg-white text-[#555]">
         {isRegistered?(<Success />) : (
-          <form className="w-80 space-y-4" onSubmit={handleSubmit(onSubmit)}>
-            <span className="text-primary-green font-bold text-4xl">
+          <form
+            className="w-80 space-y-4"
+            onSubmit={handleSubmit(onSubmit)}
+            aria-labelledby="register-form-title"
+            role="form"
+            aria-label="Formulário de cadastro"
+          >
+            <span
+              id="register-form-title"
+              className="text-primary-green font-bold text-4xl"
+            >
               Crie sua conta
             </span>
             <div>
-              <label className="font-medium ml-1">Usuário</label>
+              <label className="font-medium ml-1" htmlFor="register-username">
+                Usuário
+              </label>
               <input
-                id="username"
+                id="register-username"
                 type="text"
                 className="rounded-lg w-full p-2 focus:outline-none border border-gray-400"
                 {...register("username")}
+                aria-required="true"
+                aria-invalid={!!errors.username}
+                aria-describedby={
+                  errors.username ? "register-username-error" : undefined
+                }
               />
 
               {errors.username && (
-                <div className="ml-1 error-message text-errors font-semibold">
+                <div
+                  id="register-username-error"
+                  role="alert"
+                  aria-live="assertive"
+                  className="ml-1 error-message text-errors font-semibold"
+                >
                   {errors.username.message}
                 </div>
               )}
             </div>
 
             <div>
-              <label className="font-medium ml-1">E-mail</label>
+              <label className="font-medium ml-1" htmlFor="register-email">
+                E-mail
+              </label>
               <input
-                id="email"
+                id="register-email"
                 type="email"
                 className="rounded-lg w-full p-2 focus:outline-none border border-gray-400"
                 {...register("email")}
+                aria-required="true"
+                aria-invalid={!!errors.email}
+                aria-describedby={
+                  errors.email ? "register-email-error" : undefined
+                }
               />
               {errors.email && (
-                <div className="ml-1 error-message text-errors font-semibold">
+                <div
+                  id="register-email-error"
+                  role="alert"
+                  aria-live="assertive"
+                  className="ml-1 error-message text-errors font-semibold"
+                >
                   {errors.email.message}
                 </div>
               )}
             </div>
 
             <div className="relative">
-              <label className="font-medium ml-1">Senha</label>
+              <label className="font-medium ml-1" htmlFor="register-password">
+                Senha
+              </label>
               <input
-                id="password"
+                id="register-password"
                 type={showPassword ? "text" : "password"}
                 className="rounded-lg w-full focus:outline-none p-2 border border-gray-400"
                 {...register("password")}
+                aria-required="true"
+                aria-invalid={!!errors.password}
+                aria-describedby={
+                  errors.password ? "register-password-error" : undefined
+                }
               />
               <div
                 className={`absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer ${
@@ -163,19 +203,36 @@ export default function FormRegistration() {
                 )}
               </div>
               {errors.password && (
-                <div className="ml-1 error-message text-errors font-semibold">
+                <div
+                  id="register-password-error"
+                  role="alert"
+                  aria-live="assertive"
+                  className="ml-1 error-message text-errors font-semibold"
+                >
                   {errors.password.message}
                 </div>
               )}
             </div>
 
             <div className="relative">
-              <label className="font-medium ml-1">Confirmar Senha</label>
+              <label
+                className="font-medium ml-1"
+                htmlFor="register-confirm-password"
+              >
+                Confirmar Senha
+              </label>
               <input
-                id="confirmPassword"
+                id="register-confirm-password"
                 type={showConfirmPassword ? "text" : "password"}
                 className="rounded-lg w-full focus:outline-none p-2 border border-gray-400"
                 {...register("confirmPassword")}
+                aria-required="true"
+                aria-invalid={!!errors.confirmPassword}
+                aria-describedby={
+                  errors.confirmPassword
+                    ? "register-confirm-password-error"
+                    : undefined
+                }
               />
               <div
                 className={`absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer ${
@@ -193,7 +250,12 @@ export default function FormRegistration() {
                 )}
               </div>
               {errors.confirmPassword && (
-                <div className="ml-1 error-message text-errors font-semibold">
+                <div
+                  id="register-confirm-password-error"
+                  role="alert"
+                  aria-live="assertive"
+                  className="ml-1 error-message text-errors font-semibold"
+                >
                   {errors.confirmPassword.message}
                 </div>
               )}

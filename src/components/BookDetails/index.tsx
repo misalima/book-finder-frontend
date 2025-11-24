@@ -70,7 +70,13 @@ export default function BookDetails({ book, lists, onAddBookToList }: BookDetail
         </div>
 
         <div className="flex-1 mt-6 md:mt-0" aria-label="Informações do livro">
-          <h1 className="text-4xl font-bold" role="heading" aria-level={1} aria-label="Título do livro">
+          <h1
+            id="book-details-heading"
+            className="text-4xl font-bold"
+            role="heading"
+            aria-level={1}
+            aria-label="Título do livro"
+          >
             Título: {book.title}
           </h1>
           <h2 className="text-xl font-semibold mt-2" role="heading" aria-level={2} aria-label="Autor(es) do livro">
@@ -89,7 +95,6 @@ export default function BookDetails({ book, lists, onAddBookToList }: BookDetail
               className="flex items-center text-lg text-primary-green"
               aria-expanded={isMoreInfoVisible}
               aria-controls="book-additional-info"
-              aria-label={isMoreInfoVisible ? "Ocultar informações adicionais do livro" : "Mostrar informações adicionais do livro"}
             >
               Mais informações{" "}
               <FaChevronDown 

@@ -111,8 +111,9 @@ export const SearchBooks = () => {
                 <input
                     ref={inputRef}
                     type="search"
+                    id="search-books-input"
                     role="combobox"
-                    
+                    aria-autocomplete="list"
                     aria-expanded={showSuggestions}
                     aria-controls="search-suggestions"
                     aria-activedescendant={
@@ -163,6 +164,7 @@ export const SearchBooks = () => {
                                     ref={listRef}
                                     role="listbox"
                                     aria-label="Sugestões de livros"
+                                    id="search-suggestions"
                                     className="max-h-80 overflow-y-auto"
                                 >
                                 {books?.map((book, index) => (
