@@ -64,7 +64,7 @@ export default function BookList({ books, type, listId, refetch }: BookListProps
   };
 
   return (
-    <ul>
+    <ul role="list">
       {localBooks.length > 0 ? (
         localBooks.map((book, index) => {
           const publicationYear = book.published_date
@@ -75,10 +75,13 @@ export default function BookList({ books, type, listId, refetch }: BookListProps
             <li
               key={book.id}
               className="flex flex-row justify-between space-x-4 px-2 py-3 border-b border-gray-300 relative hover:bg-stone-900"
+              role="listitem"
+              aria-label={`Livro: ${book.title}`}
             >
               <div className="flex">
                 <a
                   href={`/book/${book.id}`}
+                  aria-label={`Ver detalhes do livro ${book.title}`}
                   ref={(el) => {
                     ensureRefSlot(index);
                     itemRefs.current[index].img = el;
@@ -87,7 +90,7 @@ export default function BookList({ books, type, listId, refetch }: BookListProps
                 >
                   <img
                     src={book.cover_image || "/images/notfoundbook.jpg"}
-                    alt={book.title}
+                    alt={`Capa do livro: ${book.title}`}
                     width={100}
                     height={150}
                     className="cursor-pointer"
@@ -98,6 +101,7 @@ export default function BookList({ books, type, listId, refetch }: BookListProps
                   <div>
                     <a
                       href={`/book/${book.id}`}
+                      aria-label={`Título: ${book.title}, publicado em ${publicationYear}`}
                       ref={(el) => {
                         ensureRefSlot(index);
                         itemRefs.current[index].title = el;
@@ -108,22 +112,35 @@ export default function BookList({ books, type, listId, refetch }: BookListProps
                     </a>
 
                     {book.subtitle && (
-                      <p className="text-gray-300 text-base italic">{book.subtitle}</p>
+                      <p className="text-gray-300 text-base italic">
+                        <span className="sr-only">Subtítulo: </span>
+                        {book.subtitle}
+                      </p>
                     )}
 
                     {book.authors?.length ? (
                       <p className="text-gray-400 text-sm">
+                        <span className="sr-only">Autores: </span>
                         Autor(es): {book.authors.map((a) => a.name).join(", ")}
                       </p>
                     ) : (
-                      <p className="text-gray-400 text-sm">Autor desconhecido</p>
+                      <p className="text-gray-400 text-sm">
+                        <span className="sr-only">Autor: </span>
+                        Autor desconhecido
+                      </p>
                     )}
                   </div>
 
                   {listId && (
-                    <div className="flex text-gray-300 cursor-default items-center">
+                    <div
+                      className="flex text-gray-300 cursor-default items-center"
+                      aria-label={`Status do livro: ${book.status === "Default" ? "Sem status" : book.status}`}
+                    >
                       Status:
-                      <h3 className="cursor-pointer hover:bg-primary-green hover:text-white w-fit ml-2 rounded-lg px-3 py-1 bg-secondary-green text-emerald-900 text-sm font-semibold">
+                      <h3
+                        className="cursor-pointer hover:bg-primary-green hover:text-white w-fit ml-2 rounded-lg px-3 py-1 bg-secondary-green text-emerald-900 text-sm font-semibold"
+                        aria-live="polite"
+                      >
                         {book.status === "Default" ? "Sem status" : book.status}
                       </h3>
                     </div>
@@ -137,6 +154,7 @@ export default function BookList({ books, type, listId, refetch }: BookListProps
                     bookId={book.id}
                     lists={formattedLists}
                     onAddBookToList={handleAddBookToList}
+                    aria-label={`Adicionar ${book.title} à lista`}
                     ref={(el) => {
                       ensureRefSlot(index);
                       void (itemRefs.current[index].button = el);
@@ -146,6 +164,7 @@ export default function BookList({ books, type, listId, refetch }: BookListProps
                   <div className="w-full flex flex-col items-center space-y-2">
                     <button
                       className="w-full bg-primary-green text-white rounded-lg p-3"
+                      aria-label={`Ver detalhes do livro ${book.title}`}
                       onClick={() => router.push(`/book/${book.id}`)}
                     >
                       Ver detalhes
@@ -154,6 +173,7 @@ export default function BookList({ books, type, listId, refetch }: BookListProps
                     <button
                       onClick={() => handleRemove(book.id)}
                       className="w-full bg-red-900 text-white rounded-lg p-3 hover:bg-red-950"
+                      aria-label={`Remover o livro ${book.title} da lista`}
                     >
                       Remover
                     </button>
@@ -164,7 +184,9 @@ export default function BookList({ books, type, listId, refetch }: BookListProps
           );
         })
       ) : (
-        <li className="p-8 border-b border-gray-300 text-gray-400">Nenhum livro aqui.</li>
+        <li className="p-8 border-b border-gray-300 text-gray-400" aria-live="polite">
+          Nenhum livro aqui.
+        </li>
       )}
     </ul>
   );
