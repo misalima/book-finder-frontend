@@ -64,7 +64,7 @@ export default function BookList({ books, type, listId, refetch }: BookListProps
   };
 
   return (
-    <ul role="list">
+    <ul role="list" aria-label={`Lista de livros`}>
       {localBooks.length > 0 ? (
         localBooks.map((book, index) => {
           const publicationYear = book.published_date
