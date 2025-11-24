@@ -53,32 +53,55 @@ export default function FormRegistration() {
         <form
           className="w-80 text-[#555] space-y-4"
           onSubmit={handleSubmit(onSubmit)}
+          aria-labelledby="login-form-title"
+          role="form"
+          aria-label="Formulário de login"
         >
-          <span className="text-primary-green font-bold text-4xl">
+          <span
+            id="login-form-title"
+            className="text-primary-green font-bold text-4xl"
+          >
             Fazer login
           </span>
           <div>
-            <label className="font-medium ml-1">E-mail</label>
+            <label className="font-medium ml-1" htmlFor="login-email">
+              E-mail
+            </label>
             <input
-              id="email"
+              id="login-email"
               type="email"
               className="rounded-lg w-full focus:outline-none p-2 border border-gray-400"
               {...register("email")}
+              aria-required="true"
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? "login-email-error" : undefined}
             />
             {errors.email && (
-              <div className="ml-1 error-message text-errors font-semibold">
+              <div
+                id="login-email-error"
+                role="alert"
+                aria-live="assertive"
+                className="ml-1 error-message text-errors font-semibold"
+              >
                 {errors.email.message}
               </div>
             )}
           </div>
 
           <div className="relative">
-            <label className="font-medium ml-1">Senha</label>
+            <label className="font-medium ml-1" htmlFor="login-password">
+              Senha
+            </label>
             <input
-              id="password"
+              id="login-password"
               type={showPassword ? "text" : "password"}
               className="rounded-lg w-full focus:outline-none p-2 border border-gray-400"
               {...register("password")}
+              aria-required="true"
+              aria-invalid={!!errors.password}
+              aria-describedby={
+                errors.password ? "login-password-error" : undefined
+              }
             />
             <div
               className={`absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer ${
@@ -96,7 +119,12 @@ export default function FormRegistration() {
               )}
             </div>
             {errors.password && (
-              <div className="ml-1 error-message text-errors font-semibold">
+              <div
+                id="login-password-error"
+                role="alert"
+                aria-live="assertive"
+                className="ml-1 error-message text-errors font-semibold"
+              >
                 {errors.password.message}
               </div>
             )}
@@ -122,7 +150,7 @@ export default function FormRegistration() {
       </div>
       <div className="bg-primary-green w-full">
         <div className="flex justify-center items-center h-screen">
-          <Link href={"/"}>
+          <Link href={"/"} aria-label="Ir para a página inicial">
           <Image alt="logo" width={480} height={180} src={"/images/logo.png"} />
           </Link>
         </div>

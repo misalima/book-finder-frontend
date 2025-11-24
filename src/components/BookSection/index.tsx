@@ -10,12 +10,13 @@ export default function BookSection() {
   } = useBook.GetBooksByTitle("Web Programming");
 
   return (
-    <div 
+    <section 
       className="container mx-auto max-w-6xl px-16 pt-4 pb-8 my-12 bg-primary-green rounded-lg"
-      role="region"
-      aria-label={`Seção de livros mais populares`}
+      aria-labelledby="popular-books-heading"
+      aria-label="Seção de livros mais populares"
     >
       <h2 
+        id="popular-books-heading"
         className="text-white mt-6 text-3xl font-semibold"
       >
         Livros mais populares
@@ -47,6 +48,6 @@ export default function BookSection() {
             })}
         </div>
       )}
-    </div>
+    </section>
   );
 }
