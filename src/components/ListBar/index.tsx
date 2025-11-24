@@ -13,6 +13,7 @@ interface ListBarProps {
 
 export default function ListBar({ id, name }: ListBarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const {
     data: bookIds,
     isLoading: isBookIdsLoading,
@@ -45,7 +46,7 @@ export default function ListBar({ id, name }: ListBarProps) {
       <div className="z-50">
         <button
           id={`list-button-${id}`}
-          ref={useRef<HTMLButtonElement | null>(null)}
+          ref={buttonRef}
           onClick={toggleCollapse}
           onMouseEnter={(e) => {
             try {
