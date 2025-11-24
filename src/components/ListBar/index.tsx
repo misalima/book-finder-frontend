@@ -3,7 +3,7 @@ import { useBook } from "@/hooks/useBook";
 /* eslint-disable @next/next/no-img-element */
 import { IBook } from "@/types/book";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import LoadingScreen from "../LoadingScreen";
 
 interface ListBarProps {
@@ -42,18 +42,55 @@ export default function ListBar({ id, name }: ListBarProps) {
 
   return (
     <div>
-      <div
-        onClick={toggleCollapse}
-        className="z-50 cursor-pointer bg-white text-dark-grey font-semibold rounded-lg text-xl px-6 py-3 flex justify-between items-center"
-      >
-        <span>{name}</span>
-        <span className="text-3xl">{isOpen ? "-" : "+"}</span>
+      <div className="z-50">
+        <button
+          id={`list-button-${id}`}
+          ref={useRef<HTMLButtonElement | null>(null)}
+          onClick={toggleCollapse}
+          onMouseEnter={(e) => {
+            try {
+              const btn = e.currentTarget as HTMLButtonElement;
+              // Only focus on hover if nothing else is focused (avoids stealing keyboard focus)
+              if (document.activeElement === document.body) {
+                btn.focus();
+                (btn as any).__focusedByHover = true;
+              }
+            } catch (err) {
+              /* ignore */
+            }
+          }}
+          onMouseLeave={(e) => {
+            try {
+              const btn = e.currentTarget as HTMLButtonElement;
+              if ((btn as any).__focusedByHover) {
+                btn.blur();
+                delete (btn as any).__focusedByHover;
+              }
+            } catch (err) {
+              /* ignore */
+            }
+          }}
+          aria-expanded={isOpen}
+          aria-controls={`list-collapse-${id}`}
+          aria-label={`Lista: ${name}`}
+          title={`Lista: ${name}`}
+          className="w-full text-left bg-white text-dark-grey font-semibold rounded-lg text-xl px-6 py-3 flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+        >
+          <span>{name}</span>
+          <span className="text-3xl" aria-hidden>
+            {isOpen ? "-" : "+"}
+          </span>
+        </button>
       </div>
 
       <div
+        id={`list-collapse-${id}`}
+        role="region"
+        aria-labelledby={`list-button-${id}`}
         className={`overflow-hidden -mt-4 transition-max-height duration-300 ease-in-out ${
           isOpen ? "max-h-48" : "max-h-0 py-0"
         } rounded-lg p-4 relative bg-white`}
+        aria-hidden={!isOpen}
       >
         {books && books.length > 0 ? (
           <>

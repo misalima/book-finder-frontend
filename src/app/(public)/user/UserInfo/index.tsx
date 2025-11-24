@@ -56,9 +56,9 @@ export default function UserInfo({
             <div className="flex items-center gap-3">
               <div className="flex flex-col gap-4 items-center">
                 <div>
-                <h2 id={`user-${user.id}-heading`} className="text-2xl md:text-4xl font-semibold">
+                <h1 id={`user-${user.id}-heading`} className="text-2xl md:text-4xl font-semibold">
                   {user.username}
-                </h2>
+                </h1>
                 {/* optional: add bio / location here */}
               </div>
 

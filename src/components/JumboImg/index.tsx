@@ -8,8 +8,9 @@ export default function JumboImg() {
         style={ {opacity: "0.7"} } 
         fill={true} 
         src={"/images/background.png"}
-        aria-label="Imagem de fundo da página inicial"
-        alt="Prateleiras com livros"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none"
       />
     </div>
   );
