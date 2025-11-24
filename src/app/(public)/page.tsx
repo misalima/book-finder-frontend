@@ -18,7 +18,7 @@ export default function App() {
 
     return (
       <>
-        <div className="z-99 w-full flex flex-col px-40 pt-24 pb-4 items-start justify-center">
+        <div className="w-full max-w-6xl mx-auto px-8 z-[99] flex flex-col pt-24 pb-4 items-start justify-center">
           <h1 className="max-w-xl text-white text-5xl font-semibold">
             Descubra, avalie e compartilhe seus livros favoritos.
           </h1>
