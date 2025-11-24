@@ -14,7 +14,7 @@ interface BookListProps {
     type: "search" | "list";
 }
 
-export default function BookList({books, type, listId, refetch,}: BookListProps) {
+export default function BookList({books, type, listId, refetch}: BookListProps) {
     const router = useRouter();
     const { mutate: removeBookFromList } = useBook.RemoveBookFromList();
     const { mutate: addBookToList } = useBook.AddBookToList();
@@ -60,6 +60,7 @@ export default function BookList({books, type, listId, refetch,}: BookListProps)
                         const publicationYear = book.published_date
                             ? new Date(book.published_date).getFullYear()
                             : "Ano desconhecido";
+
                         return (
                             <li
                                 key={book.id}
@@ -75,19 +76,24 @@ export default function BookList({books, type, listId, refetch,}: BookListProps)
                                             className="cursor-pointer"
                                         />
                                     </a>
+
                                     <div className="flex flex-col justify-between px-4">
                                         <div>
+
+                                            {/* TÍTULO COM TRUNCATE */}
                                             <a
                                                 href={`/book/${book.id}`}
-                                                className="text-white text-lg font-medium hover:underline"
+                                                className="text-white text-lg font-medium hover:underline truncate whitespace-nowrap overflow-hidden block max-w-[550px]"
                                             >
                                                 {book.title} ({publicationYear})
                                             </a>
+
                                             {book.subtitle && (
                                                 <p className="text-gray-300 text-base italic">
                                                     {book.subtitle}
                                                 </p>
                                             )}
+
                                             {book.authors?.length ? (
                                                 <p className="text-gray-400 text-sm">
                                                     Autor(es) da Obra:{" "}
@@ -99,10 +105,11 @@ export default function BookList({books, type, listId, refetch,}: BookListProps)
                                                 </p>
                                             )}
                                         </div>
+
                                         {listId && (
                                             <div className="flex text-gray-300 cursor-default items-center">
                                                 Status:
-                                                <h3 className="cursor-pointer hover:bg-primary-green hover:text-white w-fit ml-2 rounded-lg justify-self-end px-3 py-1 bg-secondary-green text-emerald-900 text-sm font-semibold">
+                                                <h3 className="cursor-pointer hover:bg-primary-green hover:text-white w-fit ml-2 rounded-lg px-3 py-1 bg-secondary-green text-emerald-900 text-sm font-semibold">
                                                     {book.status === "Default" ? "Sem status" : book.status}
                                                 </h3>
                                             </div>
