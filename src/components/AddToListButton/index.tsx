@@ -85,29 +85,59 @@ const AddToListButton = forwardRef<HTMLButtonElement, AddToListButtonProps>(
           ref={ref}
           onClick={toggleMenu}
           className="mt-4 bg-primary-green text-white font-medium px-6 py-2 rounded-md hover:bg-emerald-900"
+          aria-haspopup="menu"
+          aria-expanded={isMenuVisible}
+          aria-controls="add-to-list-menu"
+          aria-label="Adicionar livro à lista"
         >
           Adicionar à Lista
         </button>
 
         {isMenuVisible && (
-          <div className="absolute mt-2 w-64 bg-white text-black shadow-lg rounded-lg border border-gray-300 z-50">
-            <ul className="max-h-64 overflow-y-auto">
-              {lists.map((list) => (
-                <li
-                  key={list.id}
-                  className="flex items-center justify-between p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
-                >
-                  <span onClick={() => handleSelectList(list.id)}>
-                    {list.name}
-                  </span>
-                  <input
-                    className="custom-checkbox"
-                    type="checkbox"
-                    checked={selectedLists.includes(list.id)}
-                    onChange={() => handleSelectList(list.id)}
-                  />
-                </li>
-              ))}
+          <div
+            id="add-to-list-menu"
+            role="menu"
+            aria-label="Selecione uma ou mais listas para adicionar o livro"
+            className="absolute mt-2 w-64 bg-white text-black shadow-lg rounded-lg border border-gray-300 z-50"
+          >
+            <ul className="max-h-64 overflow-y-auto" role="none">
+              {lists.map((list) => {
+                const isChecked = selectedLists.includes(list.id);
+
+                return (
+                  <li
+                    key={list.id}
+                    className="flex items-center justify-between p-2 hover:bg-gray-100 rounded-lg cursor-pointer"
+                    role="menuitemcheckbox"
+                    aria-checked={isChecked}
+                    tabIndex={0}
+                    onClick={(e) => {
+                      // Evita duplicidade quando o clique vem do checkbox
+                      if ((e.target as HTMLElement).tagName !== "INPUT") {
+                        handleSelectList(list.id);
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === " " || e.key === "Enter") {
+                        e.preventDefault();
+                        handleSelectList(list.id);
+                      }
+                    }}
+                  >
+                    <label htmlFor={`checkbox-${list.id}`} className="cursor-pointer">
+                      {list.name}
+                    </label>
+
+                    <input
+                      id={`checkbox-${list.id}`}
+                      type="checkbox"
+                      checked={isChecked}
+                      aria-label={`Selecionar lista ${list.name}`}
+                      onChange={() => handleSelectList(list.id)}
+                    />
+                  </li>
+                );
+              })}
             </ul>
 
             <div className="p-2">
@@ -120,15 +150,21 @@ const AddToListButton = forwardRef<HTMLButtonElement, AddToListButtonProps>(
                       ? "bg-primary-green text-white hover:bg-emerald-900"
                       : "bg-gray-400 text-gray-700 cursor-not-allowed"
                   }`}
+                  aria-disabled={selectedLists.length === 0}
+                  aria-label="Salvar seleção de listas"
                 >
                   Salvar
                 </button>
               ) : (
-                <Link href={"/login"}>
+                <Link
+                  href={"/login"}
+                  aria-label="Fazer login para adicionar o livro a uma lista"
+                  className="block"
+                >
                   <h3 className="text-primary-green p-2 font-medium text-center">
                     Faça login para adicionar a uma lista
                   </h3>
-                  <button className="w-full font-medium px-6 py-2 rounded-md transition-colors bg-primary-green text-white hover:bg-emerald-900">
+                  <button className="w-full font-medium px-6 py-2 rounded-md bg-primary-green text-white hover:bg-emerald-900">
                     Fazer Login
                   </button>
                 </Link>
