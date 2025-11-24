@@ -5,8 +5,8 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Head from "next/head";
 import { ToastProvider } from "@/components/Toast/ToastContext";
+import VLibras from "@/components/VLibras";
 
 const queryClient = new QueryClient();
 const roboto = Roboto({
@@ -35,6 +35,7 @@ export default function RootLayout({
                 {children}
                 <Footer />
               </div>
+              <VLibras />
             </ToastProvider>
           </SessionProvider>
         </QueryClientProvider>
