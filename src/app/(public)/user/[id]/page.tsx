@@ -8,7 +8,7 @@ import { useList } from "@/hooks/useList";
 import { useUser } from "@/hooks/useUser";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { isIUser } from "@/types/user";
-import Head from "next/head";
+import JumboImg from "@/components/JumboImg";
 
 export default function UserPage({ params }: { params: { id: string } }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,16 +41,23 @@ export default function UserPage({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <div className="min-h-screen bg-dark-grey text-white px-8 md:px-40">
-        <UserInfo user={user} />
+    <JumboImg />
+      <div
+        className="container mx-auto max-w-6xl px-16 pt-6 pb-8 my-4 text-white bg-dark-grey rounded-lg"
+        role="main"
+        aria-labelledby={`user-${params.id}-heading`}
+      >
+        <UserInfo user={user} listsCount={lists?.length} />
         <UserListsSection lists={lists} />
         <div className="flex items-center justify-end py-4">
           <button
             onClick={toggleModal}
-            className="bg-primary-green text-white text-base rounded-lg p-4 flex flex-row gap-3 items-center hover:bg-emerald-900"
+            className="bg-primary-green text-white text-base rounded-lg py-3 px-4 flex flex-row gap-3 items-center hover:bg-emerald-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+            aria-haspopup="dialog"
+            aria-expanded={isModalOpen}
           >
             <BsPlusCircleFill className="text-2xl" />
-            <p>Nova Lista</p>
+            <span>Nova Lista</span>
           </button>
         </div>
 
