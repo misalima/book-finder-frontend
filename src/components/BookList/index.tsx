@@ -75,9 +75,10 @@ export default function BookList({ books, type, listId, refetch }: BookListProps
           return (
             <li
               key={book.id}
-              className="flex flex-row justify-between space-x-4 px-2 py-3 border-b border-gray-300 relative hover:bg-stone-900"
+              className="flex flex-row cursor-pointer justify-between space-x-4 px-2 py-3 border-b border-gray-300 relative hover:bg-stone-900"
               role="listitem"
               aria-label={`Livro: ${book.title}`}
+              onClick={() => router.push(`/book/${book.id}`)}
             >
               <div className="flex">
                 <a
@@ -149,7 +150,7 @@ export default function BookList({ books, type, listId, refetch }: BookListProps
                 </div>
               </div>
 
-              <div className="self-center flex flex-col items-center space-y-2">
+              <div className="self-center flex flex-col items-center space-y-2" onClick={(e)=>{e.stopPropagation()}}>
                 {type === "search" ? (
                   <AddToListButton
                     bookId={book.id}
