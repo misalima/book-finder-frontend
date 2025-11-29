@@ -2,6 +2,7 @@
 import { Roboto } from "next/font/google";
 import "../globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import VLibrasContainer from "@/components/VLibras";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ export default function RootLayout({
       <body className={roboto.className}>
         <QueryClientProvider client={queryClient}>
           {children}
+          <VLibrasContainer />
         </QueryClientProvider>
       </body>
     </html>
