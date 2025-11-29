@@ -1,13 +1,12 @@
 "use client";
 import { Roboto } from "next/font/google";
-// @ts-ignore: side-effect import of global CSS (type declaration for '*.css' can be added separately)
 import "../globals.css";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "@/components/Toast/ToastContext";
-import VLibras from "@/components/VLibras";
+import VLibrasContainer from "@/components/VLibras";
 
 const queryClient = new QueryClient();
 const roboto = Roboto({
@@ -16,18 +15,9 @@ const roboto = Roboto({
   variable: "--font-roboto",
 });
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <title>BookFinder</title>
-      <meta
-        name="description"
-        content="Encontre sua próxima leitura no BookFinder"
-      />
       <body className={`${roboto.variable} ${roboto.className}`}>
         <QueryClientProvider client={queryClient}>
           <SessionProvider>
@@ -37,7 +27,7 @@ export default function RootLayout({
                 {children}
                 <Footer />
               </div>
-              <VLibras />
+              <VLibrasContainer />
             </ToastProvider>
           </SessionProvider>
         </QueryClientProvider>

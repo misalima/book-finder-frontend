@@ -1,17 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
-import VLibrasWidget from "vlibras-nextjs";
 
-export default function VLibras() {
-  const [vlibrasLoaded, setVlibrasLoaded] = useState(false);
+import { useEffect, useState } from "react";
+import VLibras from "@djpfs/react-vlibras";
+
+export default function VLibrasContainer() {
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setVlibrasLoaded(true);
+    setMounted(true);
   }, []);
 
-  return (
-    <>
-      {vlibrasLoaded && <VLibrasWidget forceOnload />}
-    </>
-  );
+  if (!mounted) return null;
+
+  return <VLibras forceOnload={true} />;
 }

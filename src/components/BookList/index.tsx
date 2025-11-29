@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from "react";
 import AddToListButton from "@/components/AddToListButton";
 import { useList } from "@/hooks/useList";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 interface BookListProps {
   books: IBook[];
@@ -88,7 +89,7 @@ export default function BookList({ books, type, listId, refetch }: BookListProps
                   }}
                   className="flex-shrink-0"
                 >
-                  <img
+                  <Image
                     src={book.cover_image || "/images/notfoundbook.jpg"}
                     alt={`Capa do livro: ${book.title}`}
                     width={100}

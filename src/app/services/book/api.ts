@@ -24,7 +24,7 @@ class BookApi extends DefaultApi<IBook> {
 
   getBooksByList = async (listId: string): Promise<IBookInList[]> => {
     const headers = await this.getHeaders();
-    const { data } = await api.get<IBook[]>(`${this.endpoint}/list/${listId}`, {
+    const { data } = await api.get<IBookInList[]>(`${this.endpoint}/list/${listId}`, {
       headers,
     });
     return data;
