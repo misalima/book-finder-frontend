@@ -43,7 +43,7 @@ export default function UserPage({ params }: { params: { id: string } }) {
     <>
     <JumboImg />
       <div
-        className="container mx-auto max-w-6xl px-16 pt-6 pb-8 my-4 text-white bg-dark-grey rounded-lg"
+        className="container mx-auto max-w-6xl min-h-[760px] px-16 pt-6 pb-8 my-4 text-white bg-dark-grey rounded-lg"
         role="main"
         aria-labelledby={`user-${params.id}-heading`}
       >
