@@ -1,12 +1,12 @@
 "use client";
 import { Roboto } from "next/font/google";
-// @ts-ignore: side-effect import of global CSS (type declaration for '*.css' can be added separately)
 import "../globals.css";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { SessionProvider } from "next-auth/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastProvider } from "@/components/Toast/ToastContext";
+import VLibrasContainer from "@/components/VLibras";
 
 const queryClient = new QueryClient();
 const roboto = Roboto({
@@ -36,6 +36,7 @@ export default function RootLayout({
                 {children}
                 <Footer />
               </div>
+              <VLibrasContainer />
             </ToastProvider>
           </SessionProvider>
         </QueryClientProvider>
