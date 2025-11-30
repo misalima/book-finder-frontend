@@ -98,7 +98,7 @@ const AddToListButton = forwardRef<HTMLButtonElement, AddToListButtonProps>(
             id="add-to-list-menu"
             role="menu"
             aria-label="Selecione uma ou mais listas para adicionar o livro"
-            className="absolute right-0 p-2 mt-2 w-64 bg-white text-black shadow-lg rounded-lg border border-gray-300 z-50"
+            className="absolute left-0 p-2 mt-2 w-64 bg-white text-black shadow-lg rounded-lg border border-gray-300 z-50"
           >
             <ul className="max-h-64 overflow-y-auto" role="none">
               {lists.map((list) => {
