@@ -7,7 +7,7 @@ const BooksPage = () => {
       <>
         <div className="container mx-auto p-4">
           <Suspense fallback={<LoadingScreen />}>
-            <SearchResults />
+          <SearchResults />
           </Suspense>
         </div>
       </>

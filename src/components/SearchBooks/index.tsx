@@ -30,10 +30,9 @@ export const SearchBooks = () => {
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (!showSuggestions || !books?.length) return;
-        
         switch (event.key) {
             case "ArrowDown":
+                if (!showSuggestions || !books?.length) return;
                 event.preventDefault();
                 setActiveIndex((prev) => {
                     if (!books?.length) return -1;
@@ -41,6 +40,7 @@ export const SearchBooks = () => {
                 });          
                 break;
             case "ArrowUp":
+                if (!showSuggestions || !books?.length) return;
                 event.preventDefault();
                 setActiveIndex((prev) => {
                     if (!books?.length) return -1;
@@ -49,13 +49,11 @@ export const SearchBooks = () => {
                 break;
             case "Enter":
                 event.preventDefault();
-                if (activeIndex >= 0) {
-                    const selected = books?.[activeIndex];
-                    if (selected) {
-                        router.push(`/book/${selected.id}`);
-                    }
-                } else if (searchTerm) {
-                    router.push(`/books?title=${encodeURIComponent(searchTerm)}`);
+                if (activeIndex >= 0 && books?.[activeIndex]) {
+                    const selected = books[activeIndex];
+                    router.push(`/book/${selected.id}`);
+                } else if (searchTerm.trim()) {
+                    router.push(`/books?title=${encodeURIComponent(searchTerm.trim())}`);
                 }
                 setShowSuggestions(false);
                 setActiveIndex(-1);
